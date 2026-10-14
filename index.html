@@ -6,7 +6,10 @@
 <title>Chanin Jung — AI/LLM Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
 :root{
   --bg:#0A0A0A; --bg-2:#0F0F0F; --surface:#161616; --border:#242424;
@@ -16,7 +19,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);
   line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-h1,h2,h3,.logo,.stat-num,.mono,.avatar{font-family:'Space Grotesk',sans-serif}
+h1,h2,h3,.logo,.stat-num,.mono{font-family:'Space Grotesk',sans-serif}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
 .accent{color:var(--accent)}
@@ -43,8 +46,16 @@ nav{position:sticky;top:0;z-index:60;background:rgba(10,10,10,.8);backdrop-filte
   border-radius:10px;padding:8px 12px;font-size:1.1rem;cursor:pointer}
 
 /* hero */
-.hero{padding:80px 0 64px}
-.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:52px;align-items:center}
+.hero{position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:640px;overflow:hidden}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;
+  padding:72px 52px 60px max(28px, calc((100vw - 1240px)/2 + 28px))}
+.hero-photo{position:relative;overflow:hidden;
+  background:linear-gradient(165deg,#D8FA55 0%,#C6F135 42%,#A4CC18 100%);
+  border-left:1px solid var(--border)}
+.hero-photo::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(130% 70% at 50% 0%,rgba(255,255,255,.25),transparent 62%)}
+.hero-photo img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:50% 6%}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.74rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--muted);margin-bottom:24px}
 .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);
@@ -60,10 +71,20 @@ nav{position:sticky;top:0;z-index:60;background:rgba(10,10,10,.8);backdrop-filte
 @keyframes blink{50%{opacity:0}}
 .hero-desc{max-width:560px;color:var(--muted);margin-top:24px;font-size:1rem}
 .hero-cta{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
-.avatar{aspect-ratio:1;border-radius:26px;overflow:hidden;border:1px solid var(--border);
-  background:linear-gradient(150deg,#C6F135,#5c7a10);display:flex;align-items:center;justify-content:center;
-  font-size:clamp(3rem,9vw,6rem);font-weight:700;color:#0A0A0A}
-.avatar img{width:100%;height:100%;object-fit:cover}
+/* right rail: expertise label + social icons */
+.hero-rail{position:absolute;top:50%;right:22px;transform:translateY(-50%);z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:18px}
+.rail-label{writing-mode:vertical-rl;transform:rotate(180deg);
+  font-family:'Space Grotesk';font-size:.72rem;font-weight:700;letter-spacing:.26em;
+  text-transform:uppercase;color:#0A0A0A;opacity:.72}
+.rail-label.is-ko{text-orientation:upright;transform:none}
+.rail-line{width:1px;height:54px;background:#0A0A0A;opacity:.35}
+.rail-social{display:flex;flex-direction:column;gap:11px}
+.rail-social a{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.22);transition:transform .2s,box-shadow .2s}
+.rail-social a:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 12px 22px rgba(0,0,0,.32)}
+.rail-social svg{width:19px;height:19px;fill:currentColor;display:block}
+.s-gh{background:#181717}.s-li{background:#0A66C2}.s-mail{background:#EA4335}
 .stats{display:flex;gap:46px;margin-top:56px;flex-wrap:wrap}
 .stat-num{font-size:2.3rem;font-weight:700;letter-spacing:-.02em;line-height:1}
 .stat-num .plus{color:var(--accent)}
@@ -83,33 +104,181 @@ section{padding:78px 0}
 .marquee-track span b{color:var(--text);font-weight:600}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* work cards */
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px;
-  transition:border-color .25s,transform .25s;display:flex;flex-direction:column}
-.card:hover{border-color:var(--accent);transform:translateY(-4px)}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
-.card h3{font-size:1.28rem;letter-spacing:-.02em;line-height:1.25}
+/* badges + tags (shared) */
 .badge{font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
   padding:5px 11px;border-radius:999px;white-space:nowrap}
-.badge-prod{background:rgba(198,241,53,.14);color:var(--accent);border:1px solid rgba(198,241,53,.3)}
 .badge-other{background:rgba(139,139,139,.12);color:var(--muted);border:1px solid var(--border)}
-.card p{color:var(--muted);font-size:.92rem}
-.card img{width:100%;border-radius:12px;margin:16px 0;background:#fff;border:1px solid var(--border)}
-.card ul{list-style:none;margin:16px 0 0}
-.card li{position:relative;padding-left:20px;color:var(--muted);font-size:.88rem;margin-bottom:9px}
-.card li::before{content:'';position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
-.card li b{color:var(--text);font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:20px}
 .tags span{font-size:.72rem;color:var(--muted);border:1px solid var(--border);padding:4px 11px;border-radius:999px}
+
+/* work — noah-style editorial insert */
+.na-work{position:relative;background:#F7F6F3;color:#141414;padding:126px 0 132px;overflow:hidden}
+.na-container{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 28px}
+.na-watermark{position:absolute;top:0;left:0;right:0;z-index:0;text-align:center;pointer-events:none;user-select:none;
+  font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:.82;
+  font-size:clamp(120px,23vw,250px);color:#EFEEE9;letter-spacing:-.02em}
+.na-rail{position:absolute;top:10px;left:-52px}
+.na-rail span{display:block;white-space:nowrap;position:relative;transform:rotate(90deg);transform-origin:left top;
+  font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.72em;color:#B5B3AC}
+.na-rail span::after{content:'';position:absolute;top:7px;right:-58px;width:42px;height:1px;background:#0A0A0A}
+.na-head{position:relative;margin-bottom:72px}
+.na-head .na-eyebrow{display:block;text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:3px;
+  color:#5E7017;margin-bottom:10px}
+.na-head h2{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:0;line-height:1.3;
+  font-size:clamp(1.9rem,4.2vw,2.6rem);color:#0A0A0A}
+
+.na-entry{margin-bottom:104px}
+.na-entry:last-child{margin-bottom:0}
+.na-cover{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  height:clamp(280px,36vw,500px);margin-bottom:48px;
+  background:#EDECE7;border:1px solid #E3E1DB}
+.na-shot{max-width:88%;max-height:84%;object-fit:contain;border-radius:3px;background:#fff;
+  border:1px solid #E0DED7;box-shadow:0 18px 52px -14px rgba(0,0,0,.3)}
+/* A second visual rides along inside the same frame as a corner inset, so a
+   cover can show two halves of one pipeline (here: the detector's result plus
+   the GAN loop that trained it) without needing a second card. Wide shots are
+   height-limited inside every cover, which keeps the right-hand margin free. */
+.na-inset{position:absolute;right:22px;bottom:22px;z-index:2;width:140px;margin:0;
+  padding:6px 6px 5px;background:#fff;border:1px solid #E0DED7;border-radius:3px;
+  box-shadow:0 14px 36px -12px rgba(0,0,0,.38)}
+.na-inset img{display:block;width:100%;height:auto;border-radius:2px}
+.na-inset figcaption{margin-top:5px;text-align:center;text-transform:uppercase;
+  font-size:8.5px;font-weight:600;letter-spacing:1.4px;color:#6B6963}
+/* narrower covers leave a thinner right-hand margin, so the inset shrinks with
+   it and stays clear of both the shot and the resting label card */
+@media(max-width:1100px){.na-inset{right:16px;bottom:16px;width:108px}}
+/* The Mattermost cover holds two shots of the same agent — the English UI and
+   the Korean one — so both languages read the app in its own words. They ride on
+   a track twice the frame's width; dragging the frame to the left pulls the
+   Korean shot in from the right while the English one slides out to the left,
+   and dragging back returns it. translateX percentages resolve against the track
+   (200% of the frame), so -50% is exactly one frame — nothing to measure, and the
+   track stays aligned when the frame is resized.
+   The track is taken out of flow and pinned to the frame's left edge: as a flex
+   item it would be centred like everything else, parking the seam mid-frame, and
+   overriding the frame's justify-content to fix that would drag the resting label
+   card off-centre with it (its left/right stay auto on purpose — see below). The
+   frame's fixed height is what lets the track be absolute without collapsing. */
+.na-swipe{cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.na-swipe.is-dragging{cursor:grabbing}
+.na-track{position:absolute;left:0;top:0;width:200%;height:100%;display:flex;will-change:transform;
+  transition:transform .62s cubic-bezier(.22,.61,.36,1)}
+.na-swipe.is-dragging .na-track{transition:none}
+.na-slide{flex:0 0 50%;display:flex;align-items:center;justify-content:center}
+.na-slide img{-webkit-user-drag:none}
+/* the EN/KO pill echoes the inset caption: small, quiet, clear of the label card */
+.na-swipe-pill{position:absolute;right:22px;bottom:22px;z-index:4;display:flex;gap:2px;padding:3px;
+  background:rgba(255,255,255,.94);border:1px solid #E0DED7;border-radius:999px;
+  box-shadow:0 12px 30px -16px rgba(0,0,0,.4)}
+.na-swipe-pill button{border:0;background:none;cursor:pointer;border-radius:999px;padding:5px 13px;
+  font-family:'Space Grotesk',sans-serif;font-size:9.5px;font-weight:600;letter-spacing:1.6px;
+  color:#6B6963;transition:background .2s,color .2s}
+.na-swipe-pill button:hover{color:#0A0A0A}
+.na-swipe-pill button.is-on{background:#0A0A0A;color:#fff}
+@media(max-width:1100px){.na-swipe-pill{right:16px;bottom:16px}}
+.na-label{position:absolute;top:50%;z-index:3;max-width:80%;text-align:center;background:#fff;
+  padding:3.2em 2.7em;box-shadow:0 6px 60px -8px rgba(0,0,0,.3);
+  transform:translateY(-50%);
+  transition:top 1.1s cubic-bezier(.22,.61,.36,1),transform 1.1s cubic-bezier(.22,.61,.36,1)}
+/* Hovering a cover slides its title card all the way down and out of the frame,
+   uncovering the screenshot it was hiding; moving the cursor away slides it back
+   up to the centre. top:100% plus a 24px nudge parks the card completely past
+   the bottom edge, where the cover's overflow:hidden clips it. left/right stay
+   auto so the resting box keeps its flex-centred width, and top and transform
+   both interpolate, so the card glides instead of jumping. 1.1s (up from .5s)
+   paces that ~500px travel so it reads as a slide rather than a snap; drop it
+   back toward .7s for a brisker feel. */
+@media(hover:hover){.na-cover:hover .na-label{top:100%;transform:translateY(24px)}}
+.na-cat{display:block;text-transform:uppercase;font-size:11px;font-weight:600;letter-spacing:3px;
+  color:#5E7017;margin-bottom:10px}
+.na-label h3{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:0;line-height:1.32;
+  font-size:clamp(1.12rem,2.1vw,1.62rem);color:#0A0A0A}
+.na-desc{max-width:620px;margin:0 auto;text-align:center}
+.na-desc p{color:#6B6963;font-size:.98rem;line-height:1.85}
+.na-desc p a{font-weight:600;color:#0A0A0A !important;border-bottom:1px solid rgba(0,0,0,.32)}
+.na-desc p a:hover{color:#63761A !important;border-color:#63761A}
+.na-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:22px}
+.na-tags span{font-size:.72rem;letter-spacing:.04em;color:#6B6963;border:1px solid #DCDAD3;
+  padding:5px 13px;border-radius:999px}
+.na-more{display:block;margin-top:32px;text-align:center}
+.na-more summary{position:relative;display:inline-block;cursor:pointer;list-style:none;
+  text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:4px;color:#0A0A0A}
+.na-more summary::-webkit-details-marker{display:none}
+.na-more summary::before{content:'';position:absolute;top:7px;left:-56px;width:40px;height:1px;background:#0A0A0A}
+.na-more summary::after{content:' +';color:#63761A}
+.na-more[open] summary::after{content:' \2212'}
+.na-more ul{list-style:none;margin-top:24px;padding-top:24px;border-top:1px solid #E3E1DB;text-align:left}
+.na-more li{position:relative;padding-left:22px;color:#6B6963;font-size:.9rem;line-height:1.75;margin-bottom:11px}
+.na-more li::before{content:'';position:absolute;left:0;top:.72em;width:12px;height:1px;background:#B5B3AC}
+.na-more li b,.na-more li strong{color:#0A0A0A;font-weight:600}
+
+/* light zone — Work's editorial canvas continues down to the footer */
+.lt{
+  --bg:#F7F6F3; --bg-2:#EFEDE8; --surface:#FFFFFF; --border:#E3E1DB;
+  --text:#141414; --muted:#6B6963; --accent:#5E7017; --accent-ink:#F7F6F3;
+  background:#F7F6F3;color:#141414}
+/* vertical rhythm only — a shorthand here would clobber .wrap's 28px
+   horizontal padding, since .lt section (0,1,1) outranks .wrap (0,1,0) */
+.lt section{padding-top:84px;padding-bottom:84px}
+.lt > section:first-child{padding-top:0}
+.lt .sec-head{margin-bottom:52px}
+.lt .sec-head h2{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:0;
+  line-height:1.28;font-size:clamp(1.9rem,4.2vw,2.6rem);color:#0A0A0A}
+/* lime stays the fill accent; olive carries the text-level accent */
+.lt .btn-accent{background:#C6F135;color:#0A0A0A}
+.lt .btn-ghost{border-color:#DCDAD3;color:#141414}
+.lt .btn-ghost:hover{border-color:#5E7017;color:#5E7017}
+/* cards read as white panels on the canvas, like Work's label cards */
+.lt .paper{background:#fff;border-color:#E3E1DB;
+  box-shadow:0 3px 26px -16px rgba(0,0,0,.22)}
+.lt .badge-other{background:#EFEDE8;color:#6B6963;border-color:#E3E1DB}
+.lt .chips span{background:#fff;border-color:#DCDAD3}
+.lt .tags span{border-color:#DCDAD3}
+/* timeline */
+.lt .timeline::before{background:#E3E1DB}
+.lt .tl-item::before{background:#C6F135;border-color:#F7F6F3}
+.lt .tl-item li::before{background:#5E7017}
+/* about */
+.lt .about-lead{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:0;
+  line-height:1.42;color:#0A0A0A}
+.lt .about-lead .accent{border-bottom-color:#C6F135}
+/* contact + footer close the page on a deeper tone */
+.lt .contact{background:#EFEDE8;border-top:1px solid #E3E1DB;border-bottom:none}
+.lt .contact h2{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:0;
+  line-height:1.14;font-size:clamp(2.2rem,5.6vw,3.6rem);color:#0A0A0A}
+/* footer returns to the dark hero tone, bookending the page */
+.lt footer{background:#0A0A0A;border-top:none;padding:52px 0;color:#8B8B8B}
+.lt footer .logo{color:#EDEDED}
+.lt footer .logo .dot{color:#C6F135}
+.lt footer .foot-inner .f-links a{color:#8B8B8B}
+.lt footer .foot-inner .f-links a:hover{color:#C6F135}
+.lt footer .foot-inner small{color:#8B8B8B}
 
 /* research / papers */
 .paper{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px;margin-bottom:20px}
 .paper-meta{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
 .paper-j{font-family:'Space Grotesk';font-weight:600;font-size:.92rem;color:var(--accent)}
 .paper h3{font-size:1.28rem;letter-spacing:-.02em;line-height:1.3;margin-bottom:12px}
+/* the i3CE heading's link is long enough to break across lines on a phone, which
+   strands the arrow on the line above: keep the label in one piece */
+.paper h3 a{white-space:nowrap}
 .paper p{color:var(--muted);font-size:.92rem}
 .paper img{width:100%;max-width:720px;border-radius:12px;margin:16px 0;border:1px solid var(--border)}
+/* the IEEE demo clip wears the figures' frame, but it moves: the poster covers the
+   first paint so the card never flashes black, and the caption says in words what
+   the loop shows — a muted clip has no audio track to caption */
+.paper-video{margin:16px 0}
+.paper-video video{display:block;width:100%;height:auto;max-width:720px;border-radius:12px;
+  border:1px solid var(--border);background:#000}
+.paper-video figcaption{margin-top:8px;font-size:.72rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted)}
+/* the i3CE volume is not out yet, so the heading links to the proceedings listing
+   rather than to the paper, and this line says so before anyone clicks through to
+   a search that is still empty. Two classes deep: .paper p would outrank it */
+.paper .paper-note{font-size:.78rem;line-height:1.65;color:var(--muted);margin:0 0 16px;
+  padding-left:12px;border-left:2px solid var(--accent)}
+.paper .paper-note strong{color:var(--text);font-weight:600}
 .pstats{display:flex;gap:34px;flex-wrap:wrap;margin-top:20px}
 .pstat .v{font-family:'Space Grotesk';font-size:1.7rem;font-weight:700}
 .pstat .l{font-size:.76rem;color:var(--muted);margin-top:4px}
@@ -128,41 +297,55 @@ section{padding:78px 0}
 .tl-item li{position:relative;padding-left:20px;color:var(--muted);font-size:.9rem;margin-bottom:8px}
 .tl-item li::before{content:'';position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
 
-/* education */
-.edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.edu{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px}
-.edu-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
-.edu-icon{font-size:1.5rem}
-.edu h3{font-size:1.1rem;letter-spacing:-.01em;line-height:1.3}
-.edu-sub{font-size:.86rem;color:var(--muted);margin-top:4px}
-.edu p{color:var(--muted);font-size:.86rem;margin-top:12px}
+/* education — a year-anchored credential ledger */
+.ledger{border-top:1px solid var(--border)}
+.led-row{display:grid;grid-template-columns:132px 1fr;gap:40px;align-items:start;
+  padding:34px 0;border-bottom:1px solid var(--border)}
+.led-year{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:2.15rem;
+  line-height:1;color:var(--accent);letter-spacing:-.02em}
+.led-group{display:flex;align-items:center;gap:18px;padding:30px 0 16px;
+  font-family:'Space Grotesk';font-size:.7rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent)}
+.led-group::after{content:'';flex:1;height:1px;background:var(--border)}
+.led-group:first-child{padding-top:20px}
+.led-top{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:8px}
+.led-body h3{font-family:'Playfair Display',Georgia,serif;font-weight:400;
+  font-size:clamp(1.18rem,2.1vw,1.5rem);line-height:1.3;color:#0A0A0A}
+.led-sub{font-size:.9rem;color:var(--muted);margin-top:2px}
+.led-school{font-size:.92rem;color:#0A0A0A;font-weight:500;margin-top:5px}
+.led-body p{color:var(--muted);font-size:.88rem;line-height:1.8;margin-top:14px;max-width:76ch}
+.led-body p strong{color:#0A0A0A;font-weight:600}
 
-/* tech + awards */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.cat{margin-bottom:24px}
-.cat-name{font-family:'Space Grotesk';font-size:.95rem;font-weight:600;color:var(--accent);margin-bottom:12px}
+/* awards — a ribbon of credential cards */
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.award{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);
+  border-radius:18px;padding:30px 26px 32px;box-shadow:0 3px 26px -16px rgba(0,0,0,.22)}
+.award-kind{font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px}
+.award-t{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:1.14rem;
+  line-height:1.35;color:#0A0A0A;min-height:2.7em}
+.award-s{font-size:.83rem;color:var(--muted);margin-top:10px;line-height:1.6}
+
+/* tech stack — a ruled matrix */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));column-gap:44px}
+.cat{border-top:1px solid var(--border);padding:24px 0 30px}
+.cat-name{font-family:'Space Grotesk';font-size:.86rem;font-weight:600;letter-spacing:.05em;
+  color:var(--accent);margin-bottom:16px}
 .chips{display:flex;flex-wrap:wrap;gap:9px}
-.chips span{font-size:.78rem;border:1px solid var(--border);padding:6px 13px;border-radius:999px;color:var(--text)}
+.chips span{font-size:.76rem;border:1px solid var(--border);padding:6px 13px;border-radius:999px;color:var(--text)}
 .chips span:hover{border-color:var(--accent);color:var(--accent)}
-.award{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;font-size:.9rem;color:var(--muted)}
-.award b{color:var(--text);font-weight:600}
 
-/* about */
-.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
-.about-lead{font-family:'Space Grotesk';font-size:clamp(1.25rem,2.5vw,1.8rem);line-height:1.35;letter-spacing:-.02em}
-.about-lead .accent{border-bottom:2px solid var(--accent);padding-bottom:2px}
-.about p{color:var(--muted);margin-top:18px}
-.mini{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
-.mini .k{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-.mini .v{font-family:'Space Grotesk';font-size:1rem;font-weight:600}
-.mini .s{font-size:.84rem;color:var(--muted);margin-top:3px}
+/* about — a wide statement over two prose columns */
+.about-lead-wrap{max-width:920px}
+.about-lead{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:0;
+  font-size:clamp(1.5rem,3.2vw,2.25rem);line-height:1.34;color:#0A0A0A}
+.about-lead .accent{border-bottom:2px solid #C6F135;padding-bottom:2px}
+.about-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:44px;margin-top:34px}
+.about-cols p{color:var(--muted);font-size:.94rem;line-height:1.8}
 
 /* contact */
 .contact{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .contact h2{font-size:clamp(2.2rem,5.6vw,4.2rem);letter-spacing:-.03em;line-height:1.02}
-.contact .mail{display:inline-block;margin-top:24px;font-family:'Space Grotesk';
-  font-size:clamp(1.05rem,2.8vw,1.6rem);font-weight:600;border-bottom:2px solid var(--accent);padding-bottom:4px}
-.contact .mail:hover{color:var(--accent)}
 .contact-links{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
 
 /* footer */
@@ -182,10 +365,61 @@ footer{padding:44px 0}
   .nav-links.open{display:flex;flex-direction:column;position:absolute;top:78px;left:0;right:0;
     background:var(--bg-2);border-bottom:1px solid var(--border);padding:22px 28px;gap:16px;align-items:flex-start}
   .menu-btn{display:block}
-  .hero-grid{grid-template-columns:1fr;gap:32px}
-  .avatar{max-width:280px}
-  .work-grid,.edu-grid,.grid-2,.about-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-copy{padding:52px 28px 44px}
+  .hero-photo{min-height:440px}
+  .hero-rail{display:none}
+  .led-row{grid-template-columns:76px 1fr;gap:20px;padding:28px 0}
+  .led-year{font-size:1.7rem}
+  .led-top{flex-direction:column;align-items:flex-start;gap:10px}
+  .led-group{padding:26px 0 13px;gap:14px}
+  .led-group:first-child{padding-top:16px}
+  .tech-grid{column-gap:0}
+  .na-work{padding:78px 0 86px}
+  .na-rail{display:none}
+  .na-watermark{font-size:clamp(76px,26vw,150px)}
+  .na-head{margin-bottom:46px}
+  .na-entry{margin-bottom:68px}
+  .na-cover{height:clamp(230px,54vw,330px);margin-bottom:32px}
+  .na-label{max-width:88%;padding:2.1em 1.6em}
+  .na-shot{max-width:92%;max-height:74%}
+  /* covers get short enough that the inset would sit on top of the shot (and
+     behind the always-visible label) — the shot alone carries the frame here */
+  .na-inset{display:none}
+  .na-more{display:block;text-align:center}
+  .na-more summary::before{left:-44px;width:30px}
   .stats{gap:30px}
+  .lt section{padding-top:64px;padding-bottom:64px}
+  .lt > section:first-child{padding-top:0}
+  .lt .sec-head{margin-bottom:36px}
+  .lt .contact h2{font-size:clamp(1.9rem,8.5vw,2.6rem)}
+  /* status pills cannot stay on one line on phones — let them wrap instead of
+     being clipped by body{overflow-x:hidden} */
+  .paper-meta{align-items:flex-start;gap:10px}
+  .paper-meta .badge{white-space:normal;border-radius:12px;line-height:1.55;max-width:100%}
+}
+/* Touch has no hover, so a laptop's slide-away gesture has no equivalent, and the
+   centred card hides most of the shot: the frame shrinks to 230px on a phone while
+   the card keeps its desktop padding, so the card grows from a third of the frame
+   to nearly two thirds and the screenshot behind it stops being readable. On a
+   pointer that cannot hover the card therefore stops being a centred panel and
+   becomes a caption bar pinned to the frame's bottom edge — full width, a third of
+   the frame tall — which leaves the shot itself visible at rest; a tap on the bar
+   slides the card out of the frame (the same 1.1s travel the hover rule makes, plus
+   the 2px the frame's own 1px border adds, so no sliver of the card is left behind)
+   and a tap anywhere on the frame brings it back. Keyed on the pointer rather than
+   the width, so a touch tablet in landscape is covered too and a mouse-driven
+   laptop is left untouched. */
+@media(hover:none){
+  .na-label{top:auto;bottom:0;transform:none;max-width:100%;width:100%;
+    padding:.8em 1.1em .9em;box-shadow:0 -8px 30px -16px rgba(0,0,0,.35)}
+  .na-label .na-cat{font-size:9px;letter-spacing:2.4px;margin-bottom:3px}
+  .na-label h3{font-size:1rem;line-height:1.3}
+  /* the EN/KO pill is pinned to the frame's bottom-right corner, which is now the
+     bar's own corner, so the bar keeps clear of it instead of running its title
+     underneath */
+  .na-swipe .na-label{padding-right:118px}
+  .na-cover.is-open .na-label{transform:translateY(calc(100% + 2px))}
 }
 </style>
 </head>
@@ -201,126 +435,185 @@ footer{padding:44px 0}
       <a href="#education" data-i18n="nav_education">Education</a>
       <a href="#contact" data-i18n="nav_contact">Contact</a>
       <button class="lang-btn" id="lang-btn" onclick="toggleLang()">한국어</button>
-      <a href="mailto:chaninjung7@gmail.com" class="btn btn-accent" data-i18n="nav_talk">Let's Talk</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=chaninjung7@gmail.com" target="_blank" rel="noopener" class="btn btn-accent" data-i18n="nav_talk">Let's Talk</a>
     </div>
     <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">&#9776;</button>
   </div>
 </nav>
 
-<header class="hero wrap">
-  <div class="hero-grid">
-    <div>
-      <div class="eyebrow reveal"><span class="pulse"></span> <span data-i18n="hero_eyebrow">Open to opportunities</span></div>
-      <h1 class="reveal"><span data-i18n="hero_name">I'm Chanin</span><span class="thin" data-i18n="hero_h1_1">AI/LLM Developer</span></h1>
-      <div class="reveal"><span class="typing" id="typing"></span><span class="cursor"></span></div>
-      <p class="hero-desc reveal" data-i18n="hero_desc">I build enterprise AI systems that real people use every day &mdash; not prototypes. Engineering background, hands-on LLM ops.</p>
-      <div class="hero-cta reveal">
-        <a href="mailto:chaninjung7@gmail.com" class="btn btn-accent" data-i18n="hero_cta1">Get in touch &rarr;</a>
-        <a href="#work" class="btn btn-ghost" data-i18n="hero_cta2">View work</a>
-      </div>
+<header class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow reveal"><span class="pulse"></span> <span data-i18n="hero_eyebrow">Open to opportunities</span></div>
+    <h1 class="reveal"><span data-i18n="hero_name">I'm Chanin</span><span class="thin" data-i18n="hero_h1_1">AI/LLM Developer</span></h1>
+    <div class="reveal"><span class="typing" id="typing"></span><span class="cursor"></span></div>
+    <p class="hero-desc reveal" data-i18n="hero_desc">I build enterprise AI systems that real people use every day &mdash; not prototypes. Engineering background, hands-on LLM ops.</p>
+    <div class="hero-cta reveal">
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=chaninjung7@gmail.com" target="_blank" rel="noopener" class="btn btn-accent" data-i18n="hero_cta1">Get in touch &rarr;</a>
+      <a href="#work" class="btn btn-ghost" data-i18n="hero_cta2">View work</a>
     </div>
-    <div class="avatar reveal"><img src="profile.jpg" alt="Chanin Jung" onerror="this.parentNode.textContent='CJ'"></div>
+    <div class="stats reveal">
+      <div><div class="stat-num">100<span class="plus">+</span></div><div class="stat-lbl" data-i18n="stat_lbl1">Users served</div></div>
+      <div><div class="stat-num">2<span class="plus">+</span></div><div class="stat-lbl" data-i18n="stat_lbl2">Years in AI</div></div>
+      <div><div class="stat-num">2</div><div class="stat-lbl" data-i18n="stat_lbl3">Research papers</div></div>
+      <div><div class="stat-num">2</div><div class="stat-lbl" data-i18n="stat_lbl4">Production systems</div></div>
+    </div>
   </div>
-  <div class="stats reveal">
-    <div><div class="stat-num">100<span class="plus">+</span></div><div class="stat-lbl" data-i18n="stat_lbl1">Users served</div></div>
-    <div><div class="stat-num">2<span class="plus">+</span></div><div class="stat-lbl" data-i18n="stat_lbl2">Years in AI</div></div>
-    <div><div class="stat-num">1</div><div class="stat-lbl" data-i18n="stat_lbl3">IEEE SCI paper</div></div>
-    <div><div class="stat-num">6<span class="plus">+</span></div><div class="stat-lbl" data-i18n="stat_lbl4">Production services</div></div>
+  <div class="hero-photo reveal">
+    <picture>
+      <source srcset="profile.webp" type="image/webp">
+      <img src="profile.png" alt="Chanin Jung" onerror="this.style.display='none'">
+    </picture>
+    <aside class="hero-rail">
+      <span class="rail-label" data-i18n="rail_expertise">My Expertise</span>
+      <span class="rail-line"></span>
+      <div class="rail-social">
+        <a class="s-gh" href="https://github.com/chaninjung" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <a class="s-li" href="https://linkedin.com/in/chaninjung" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+        </a>
+        <a class="s-mail" href="https://mail.google.com/mail/?view=cm&fs=1&to=chaninjung7@gmail.com" target="_blank" rel="noopener" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13A2.5 2.5 0 0 1 19.5 21h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.3-.5 7.7 5.6L19.7 5H4.3ZM20 6.8l-7.4 5.4a1 1 0 0 1-1.2 0L4 6.8V18.5c0 .28.22.5.5.5h15a.5.5 0 0 0 .5-.5V6.8Z"/></svg>
+        </a>
+      </div>
+    </aside>
   </div>
 </header>
 
 <div class="marquee">
   <div class="marquee-track">
-    <span><b>LLM / RAG</b></span><span>&middot;</span><span>AWS EKS</span><span>&middot;</span><span><b>Python</b></span><span>&middot;</span><span>Dify &middot; n8n</span><span>&middot;</span><span><b>Cloudflare Pages</b></span><span>&middot;</span><span>Langfuse</span><span>&middot;</span><span><b>YOLOv5 / GAN</b></span><span>&middot;</span><span>XGBoost</span><span>&middot;</span>
-    <span><b>LLM / RAG</b></span><span>&middot;</span><span>AWS EKS</span><span>&middot;</span><span><b>Python</b></span><span>&middot;</span><span>Dify &middot; n8n</span><span>&middot;</span><span><b>Cloudflare Pages</b></span><span>&middot;</span><span>Langfuse</span><span>&middot;</span><span><b>YOLOv5 / GAN</b></span><span>&middot;</span><span>XGBoost</span><span>&middot;</span>
+    <span><b>LLM / RAG</b></span><span>&middot;</span><span>AWS</span><span>&middot;</span><span><b>Python</b></span><span>&middot;</span><span>Dify &middot; n8n</span><span>&middot;</span><span><b>Cloudflare Pages</b></span><span>&middot;</span><span>Langfuse</span><span>&middot;</span><span><b>YOLOv5 / GAN</b></span><span>&middot;</span><span>XGBoost</span><span>&middot;</span>
+    <span><b>LLM / RAG</b></span><span>&middot;</span><span>AWS</span><span>&middot;</span><span><b>Python</b></span><span>&middot;</span><span>Dify &middot; n8n</span><span>&middot;</span><span><b>Cloudflare Pages</b></span><span>&middot;</span><span>Langfuse</span><span>&middot;</span><span><b>YOLOv5 / GAN</b></span><span>&middot;</span><span>XGBoost</span><span>&middot;</span>
   </div>
 </div>
 
-<section id="work" class="wrap">
-  <div class="sec-head reveal">
-    <div class="sec-tag" data-i18n="work_tag">Work</div>
-    <h2 data-i18n="work_h2">What I've Built</h2>
-  </div>
-  <div class="work-grid">
+<section id="work" class="na-work">
+  <div class="na-watermark" aria-hidden="true">Works</div>
+  <div class="na-container">
+    <div class="na-rail" aria-hidden="true"><span>Portfolio</span></div>
+    <div class="na-head reveal">
+      <span class="na-eyebrow" data-i18n="work_tag">Work</span>
+      <h2 data-i18n="work_h2">What I've Built</h2>
+    </div>
 
-    <article class="card reveal">
-      <div class="card-top">
-        <h3 data-i18n="p1_h3">Enterprise LLM Agent Platform</h3>
-        <span class="badge badge-prod" data-i18n="p1_badge">Production</span>
+    <article class="na-entry reveal">
+      <div class="na-cover na-swipe">
+        <!-- two shots of the same agent ride on one track: the English UI first,
+             the Korean one behind it, dragged in from the right -->
+        <div class="na-track">
+          <div class="na-slide">
+            <img class="na-shot" src="mattermost_EN.webp" draggable="false" alt="Enterprise LLM agent answering a construction-regulation question inside Mattermost &mdash; English UI, listing the building and school-facility regulations to review">
+          </div>
+          <div class="na-slide" aria-hidden="true">
+            <img class="na-shot" src="mattermost_KO.webp" draggable="false" alt="The same Mattermost agent answering the same question in Korean, with the regulation table in Korean">
+          </div>
+        </div>
+        <div class="na-swipe-pill" role="group" aria-label="Screenshot language">
+          <button type="button" class="is-on" aria-pressed="true">EN</button>
+          <button type="button" aria-pressed="false">KO</button>
+        </div>
+        <div class="na-label">
+          <span class="na-cat" data-i18n="p1_badge">Production</span>
+          <h3 data-i18n="p1_h3">Enterprise LLM Agent Platform</h3>
+        </div>
       </div>
-      <p data-i18n="p1_desc">AI agent serving 100+ users across 6 departments at a 1,700-employee construction engineering company. Users ask regulatory questions in Mattermost &mdash; the agent retrieves answers with cited legal references.</p>
-      <ul>
-        <li data-i18n="p1_li1">Dify-based LLM Agent autonomously calls 3 data sources: Korean Construction Standards API, National Legislation API, Gemini web grounding</li>
-        <li data-i18n="p1_li2">Full round-trip pipeline: Mattermost &rarr; n8n &rarr; Dify Agent &rarr; n8n &rarr; Mattermost</li>
-        <li data-i18n="p1_li3">21 pods, 6 open-source services on AWS EKS &mdash; Keycloak SSO across 5 tools, CI/CD via GitHub Actions</li>
-        <li data-i18n="p1_li4">Regulatory document search time: 1 week &rarr; 1 minute</li>
-        <li data-i18n="p1_li5">Query cost: &#8361;33/query (~$0.025)</li>
-      </ul>
-      <div class="tags"><span>Python</span><span>Dify</span><span>n8n</span><span>AWS EKS</span><span>Terraform</span><span>Keycloak</span></div>
+      <div class="na-desc">
+        <p data-i18n="p1_desc">AI agent serving 100+ users across 6 departments at a 1,700-employee construction engineering company. Users ask regulatory questions in Mattermost &mdash; the agent retrieves answers with cited legal references.</p>
+        <div class="na-tags"><span>Python</span><span>Dify</span><span>n8n</span><span>AWS</span><span>Terraform</span><span>Keycloak</span></div>
+        <details class="na-more">
+          <summary data-i18n="work_points">Key points</summary>
+          <ul>
+            <li data-i18n="p1_li1">Dify-based LLM Agent autonomously calls 3 data sources: Korean Construction Standards API, National Legislation API, Gemini web grounding</li>
+            <li data-i18n="p1_li2">Full round-trip pipeline: Mattermost &rarr; n8n &rarr; Dify Agent &rarr; n8n &rarr; Mattermost</li>
+            <li data-i18n="p1_li3">21 pods, 6 open-source services on AWS &mdash; Keycloak SSO across 5 tools, CI/CD via GitHub Actions</li>
+            <li data-i18n="p1_li4">Regulatory document search time: 1 week &rarr; 1 minute</li>
+            <li data-i18n="p1_li5">Query cost: &#8361;33/query (~$0.025)</li>
+          </ul>
+        </details>
+      </div>
     </article>
 
-    <article class="card reveal">
-      <div class="card-top">
-        <h3 data-i18n="p7_h3">Huko News &mdash; A Live Full-Stack Web Service</h3>
-        <span class="badge badge-prod" data-i18n="p7_badge">Production</span>
+    <article class="na-entry reveal">
+      <a class="na-cover" href="https://hukonews.com/" target="_blank" rel="noopener">
+        <img class="na-shot" src="huko-home.webp" alt="Huko News homepage &mdash; Daily Korean News">
+        <div class="na-label">
+          <span class="na-cat" data-i18n="p7_badge">Production</span>
+          <h3 data-i18n="p7_h3">Huko News &mdash; A Live Full-Stack Web Service</h3>
+        </div>
+      </a>
+      <div class="na-desc">
+        <p data-i18n="p7_desc">A live Korean-learning news website I designed, built, and run end-to-end &mdash; a real product, not a prototype. I own the whole stack: front-end, content engine, and deployment. <a href="https://hukonews.com/" target="_blank">hukonews.com &#8599;</a></p>
+        <div class="na-tags"><span>HTML/CSS/JS</span><span>Python</span><span>LLM</span><span>Cloudflare Pages</span><span>GitHub Actions</span><span>SEO</span></div>
+        <details class="na-more">
+          <summary data-i18n="work_points">Key points</summary>
+          <ul>
+            <li data-i18n="p7_li1">Designed &amp; built the site from scratch &mdash; responsive front-end (HTML/CSS/JS), article / category / search pages, and a lesson-material library</li>
+            <li data-i18n="p7_li2">Engineered the Python content engine: news collection &rarr; LLM rewriting &amp; level-grading &rarr; trilingual translation (KOR/ENG/HU) &rarr; image sourcing &rarr; TTS audio</li>
+            <li data-i18n="p7_li3">Ships daily via GitHub Actions to Cloudflare Pages (07:00 KST), with SEO automation (sitemap, IndexNow) and AdSense monetization</li>
+          </ul>
+        </details>
       </div>
-      <p data-i18n="p7_desc">A live Korean-learning news website I designed, built, and run end-to-end &mdash; a real product, not a prototype. I own the whole stack: front-end, content engine, and deployment. <a href="https://hukonews.com/" target="_blank" class="accent">hukonews.com &#8599;</a></p>
-      <img src="huko-banner.png" alt="Huko News &mdash; Daily Korean News">
-      <ul>
-        <li data-i18n="p7_li1">Designed &amp; built the site from scratch &mdash; responsive front-end (HTML/CSS/JS), article / category / search pages, and a lesson-material library</li>
-        <li data-i18n="p7_li2">Engineered the Python content engine: news collection &rarr; LLM rewriting &amp; level-grading &rarr; trilingual translation (KOR/ENG/HU) &rarr; image sourcing &rarr; TTS audio</li>
-        <li data-i18n="p7_li3">Ships daily via GitHub Actions to Cloudflare Pages (07:00 KST), with SEO automation (sitemap, IndexNow) and AdSense monetization</li>
-      </ul>
-      <div class="tags"><span>HTML/CSS/JS</span><span>Python</span><span>LLM</span><span>Cloudflare Pages</span><span>GitHub Actions</span><span>SEO</span></div>
     </article>
 
-    <article class="card reveal">
-      <div class="card-top">
-        <h3 data-i18n="p4_h3">Li-ion Battery Defect Rate Reduction via XGBoost</h3>
-        <span class="badge badge-other" data-i18n="p4_badge">POSCO Academy &middot; Award</span>
+    <article class="na-entry reveal">
+      <div class="na-cover">
+        <img class="na-shot" src="posco-results.jpg" alt="POSCO Academy analysis-results slide: defect frequency by discharge-stage-2 temperature, a table ranking key-factor candidates across four methods, and the optimal 25.6&ndash;29.7&deg;C window">
+        <div class="na-label">
+          <span class="na-cat" data-i18n="p4_badge">POSCO Academy &middot; Award</span>
+          <h3 data-i18n="p4_h3">Li-ion Battery Defect Rate Reduction via XGBoost</h3>
+        </div>
       </div>
-      <p data-i18n="p4_desc">Analyzed real production data from a lithium-ion battery formation process to identify defect-causing factors and build a predictive model to reduce the defect rate.</p>
-      <ul>
-        <li data-i18n="p4_li1">Dataset: 44,078 observations &times; 113 process variables + 26 time-series variables</li>
-        <li data-i18n="p4_li2">Feature selection via ANOVA, Chi-squared, Decision Tree &mdash; identified charge/discharge equipment and temperature as key factors</li>
-        <li data-i18n="p4_li3">Defect rate reduced from <b>3.12% &rarr; 0.45%</b> using XGBoost prediction model</li>
-        <li data-i18n="p4_li4">Domain insight: outlier temperatures (25&deg;&ndash;30&deg;C) validated against literature and preserved, not removed</li>
-      </ul>
-      <div class="tags"><span>XGBoost</span><span>Random Forest</span><span>ANOVA</span><span>Python</span><span>Pandas</span></div>
+      <div class="na-desc">
+        <p data-i18n="p4_desc">Analyzed real production data from a lithium-ion battery formation process to identify defect-causing factors and build a predictive model to reduce the defect rate.</p>
+        <div class="na-tags"><span>XGBoost</span><span>Random Forest</span><span>ANOVA</span><span>Python</span><span>Pandas</span></div>
+      </div>
+      <details class="na-more">
+        <summary data-i18n="work_points">Key points</summary>
+        <ul>
+          <li data-i18n="p4_li1">Dataset: 44,078 observations &times; 113 process variables + 26 time-series variables</li>
+          <li data-i18n="p4_li2">Feature selection via ANOVA, Chi-squared, Decision Tree &mdash; identified charge/discharge equipment and temperature as key factors</li>
+          <li data-i18n="p4_li3">Defect rate reduced from <b>3.12% &rarr; 0.45%</b> using XGBoost prediction model</li>
+          <li data-i18n="p4_li4">Domain insight: outlier temperatures (25&deg;&ndash;30&deg;C) validated against literature and preserved, not removed</li>
+        </ul>
+      </details>
     </article>
 
-    <article class="card reveal">
-      <div class="card-top">
-        <h3 data-i18n="p5_h3">Smart Farm AI &mdash; Tomato Ripeness &amp; Disease Detection</h3>
-        <span class="badge badge-other" data-i18n="p5_badge">POSCO Academy &middot; Award</span>
+    <article class="na-entry reveal">
+      <div class="na-cover">
+        <img class="na-shot" src="tomato-detection.jpg" alt="YOLOv5 plant-disease detection results: a model comparison table with YOLOv5s leading at mAP50 0.991, the F1-confidence curve and the confusion matrix">
+        <!-- the GAN demo keeps its place in the same frame as a corner inset;
+             1.1 MB animated GIF, so it is the one asset here that needs lazy loading -->
+        <figure class="na-inset">
+          <img src="tomato-gan.gif" alt="GAN-generated tomato ripeness images, animating from noise to a realistic tomato" loading="lazy" decoding="async">
+          <figcaption>GAN samples</figcaption>
+        </figure>
+        <div class="na-label">
+          <span class="na-cat" data-i18n="p5_badge">POSCO Academy &middot; Award</span>
+          <h3 data-i18n="p5_h3">Smart Farm AI &mdash; Tomato Ripeness &amp; Disease Detection</h3>
+        </div>
       </div>
-      <p data-i18n="p5_desc">Built a real-time YOLOv5-based detection system for tomato ripeness (3 classes) and disease (10 classes). Resolved class imbalance by training a GAN from scratch to generate synthetic ripeness images &mdash; and published the augmented dataset publicly on Roboflow.</p>
-      <ul>
-        <li data-i18n="p5_li1">Ripeness dataset: 2,448 images (turning/pink/red &mdash; class imbalance in "turning")</li>
-        <li data-i18n="p5_li2">GAN generated 600 synthetic "turning" images &rarr; final training set: <b>3,088 images</b>; FID-optimized parameters</li>
-        <li data-i18n="p5_li3">Turning class mAP50: 0.969 &rarr; <b>0.991</b> after GAN augmentation; final ripeness mAP50: <b>0.973</b></li>
-        <li data-i18n="p5_li4">Disease model: compared YOLOv5/v6/v8 &rarr; YOLOv5 selected at mAP50 <b>0.991</b></li>
-        <li data-i18n="p5_li5">RFID + Arduino for tomato location tracking; Flask web dashboard for real-time detection feed</li>
-      </ul>
-      <div class="tags"><span>YOLOv5</span><span>GAN</span><span>Computer Vision</span><span>Flask</span><span>Arduino</span><span>Python</span></div>
-    </article>
-
-    <article class="card reveal">
-      <div class="card-top">
-        <h3 data-i18n="p6_h3">CAD LISP Code Generation &mdash; LoRA Fine-tuning</h3>
-        <span class="badge badge-other" data-i18n="p6_badge">Research</span>
+      <div class="na-desc">
+        <p data-i18n="p5_desc">Built a real-time YOLOv5-based detection system for tomato ripeness (3 classes) and disease (10 classes). Resolved class imbalance by training a GAN from scratch to generate synthetic ripeness images &mdash; and published the augmented dataset publicly on Roboflow.</p>
+        <div class="na-tags"><span>YOLOv5</span><span>GAN</span><span>Computer Vision</span><span>Flask</span><span>Arduino</span><span>Python</span></div>
       </div>
-      <p data-i18n="p6_desc">Fine-tuned an LLM on CAD LISP &mdash; a niche domain-specific language used in construction CAD workflows &mdash; to enable accurate code generation for a language with virtually no public training data.</p>
-      <ul>
-        <li data-i18n="p6_li1">Built an LLM-based data augmentation pipeline to generate training data from scratch &mdash; CAD LISP has almost no open-source corpus</li>
-        <li data-i18n="p6_li2">Incorporated Chain-of-Thought prompting into training data; applied LoRA fine-tuning to inject domain-specific function patterns</li>
-        <li data-i18n="p6_li3">Evaluated with LLM-as-Judge (model verifying code correctness): accuracy <b>43% &rarr; 92%</b></li>
-      </ul>
-      <div class="tags"><span>LoRA</span><span>Chain-of-Thought</span><span>Data Augmentation</span><span>LLM-as-Judge</span><span>Python</span></div>
+      <details class="na-more">
+        <summary data-i18n="work_points">Key points</summary>
+        <ul>
+          <li data-i18n="p5_li1">Ripeness dataset: 2,448 images (turning/pink/red &mdash; class imbalance in "turning")</li>
+          <li data-i18n="p5_li2">GAN generated 600 synthetic "turning" images &rarr; final training set: <b>3,088 images</b>; FID-optimized parameters</li>
+          <li data-i18n="p5_li3">Turning class mAP50: 0.969 &rarr; <b>0.991</b> after GAN augmentation; final ripeness mAP50: <b>0.973</b></li>
+          <li data-i18n="p5_li4">Disease model: compared YOLOv5/v6/v8 &rarr; YOLOv5 selected at mAP50 <b>0.991</b></li>
+          <li data-i18n="p5_li5">RFID + Arduino for tomato location tracking; Flask web dashboard for real-time detection feed</li>
+        </ul>
+      </details>
     </article>
 
   </div>
 </section>
+
+<!-- light zone: Work's editorial canvas continues to the footer -->
+<div class="lt">
 
 <section id="research" class="wrap">
   <div class="sec-head reveal">
@@ -333,16 +626,20 @@ footer{padding:44px 0}
       <span class="paper-j">i3CE 2026 &mdash; ASCE</span>
       <span class="badge badge-other" data-i18n="paper2_year">2026 &middot; First Author</span>
     </div>
-    <h3>BM25-based Retrieval-Augmented Compliance Verification for Korean Construction Standards</h3>
+    <h3>BM25-based Retrieval-Augmented Compliance Verification for Korean Construction Standards &nbsp;<a href="https://ascelibrary.org/proceedings?ConceptID=145013" target="_blank" rel="noopener" class="accent">&#8599; ASCE Library</a></h3>
+    <!-- the volume is not out yet, so the heading links to the i3CE proceedings
+         listing rather than to the paper itself, and this line says so before
+         anyone clicks through to a search that is still empty -->
+    <p class="paper-note" data-i18n="paper2_pub_note">Proceedings 2026 &mdash; <strong>not published yet</strong>; the ASCE volume is due next year. The link opens the i3CE proceedings listing on the ASCE Library.</p>
     <img src="architecture_figure1.png" alt="BM25-based RAG pipeline architecture">
-    <p data-i18n="paper2_abstract">A domain-specific RAG system for Korean construction regulations. A structure-preserving Markdown&ndash;HTML preprocessing pipeline reduces token overhead by 78%, and BM25-based sparse retrieval with Kiwi morphological decomposition enables clause-level terminology alignment and citation-grounded verification. Evaluation on 50 expert-curated compliance questions shows improved accuracy (76.0% &rarr; 84.0%) and elimination of false positives (11 &rarr; 0). Presentation scheduled at ASCE i3CE 2026, Songdo, June 2026.</p>
+    <p data-i18n="paper2_abstract">A domain-specific RAG system for Korean construction regulations. A structure-preserving Markdown&ndash;HTML preprocessing pipeline reduces token overhead by 78%, and BM25-based sparse retrieval with morphological decomposition enables clause-level terminology alignment and citation-grounded verification. Evaluation on 50 expert-curated compliance questions shows improved accuracy (76.0% &rarr; 84.0%) and elimination of false positives (11 &rarr; 0). Presented at ASCE i3CE 2026, Songdo, June 2026.</p>
     <div class="pstats">
       <div class="pstat"><div class="v">84.0%</div><div class="l" data-i18n="ps2_lbl1">Accuracy (vs 76% standalone)</div></div>
       <div class="pstat"><div class="v">82.0%</div><div class="l" data-i18n="ps2_lbl2">Recall@5</div></div>
       <div class="pstat"><div class="v">0</div><div class="l" data-i18n="ps2_lbl3">False Positives (vs 11)</div></div>
       <div class="pstat"><div class="v">78%</div><div class="l" data-i18n="ps2_lbl4">Token reduction</div></div>
     </div>
-    <div class="tags"><span>BM25</span><span>RAG</span><span>Kiwi</span><span>Compliance Verification</span><span>Construction Standards</span><span>Python</span></div>
+    <div class="tags"><span>BM25</span><span>RAG</span><span>Compliance Verification</span><span>Construction Standards</span><span>Python</span></div>
   </article>
 
   <article class="paper reveal">
@@ -351,6 +648,15 @@ footer{padding:44px 0}
       <span class="badge badge-other" data-i18n="paper_year">2023 &middot; First Author</span>
     </div>
     <h3>Counter-Rotating Hoop Stabilizer and SVR Control for Two-Wheels Vehicle Applications &nbsp;<a href="https://ieeexplore.ieee.org/document/10041155" target="_blank" class="accent">&#8599; IEEE</a></h3>
+    <!-- the prototype holding balance at a 23&deg; lean, on loop: it is the claim the
+         numbers below make, shown rather than described. Muted + playsinline are
+         what let it autoplay; the poster covers the wait for the first frame -->
+    <figure class="paper-video">
+      <video src="ieee-lean-23deg.mp4" poster="ieee-lean-23deg.webp" width="1280" height="720"
+             autoplay loop muted playsinline preload="metadata"
+             aria-label="Lab demo: the counter-rotating hoop prototype holding balance at a 23-degree lean angle"></video>
+      <figcaption data-i18n="paper_video_cap">Lab demo &mdash; the prototype holds balance at a 23&deg; lean angle (loops)</figcaption>
+    </figure>
     <p data-i18n="paper_abstract">The capstone design project won the Grand Prize (2021) and was awarded research funding to continue development. The PID-controlled reaction wheel system was then fully redesigned for this SCI paper: replaced PID with SVR (Support Vector Regression), and replaced the single reaction wheel with a counter-rotating hoop &mdash; two wheels spinning in opposite directions to achieve more stable, bidirectional balance control. SVR predicted the required PWM voltage at each tilt angle; hyperparameter optimization with RBF kernel achieved 98.2% correlation.</p>
     <div class="pstats">
       <div class="pstat"><div class="v">100%</div><div class="l" data-i18n="ps_lbl1">Balance correction accuracy</div></div>
@@ -373,7 +679,7 @@ footer{padding:44px 0}
       <h3 data-i18n="tl1_title">AI Developer &mdash; LLM / RAG Engineer</h3>
       <div class="tl-place" data-i18n="tl1_place">Dongmyeong Engineering &amp; Construction (DMEC) &mdash; Seoul, Korea</div>
       <ul>
-        <li data-i18n="tl1_li1">Built and operate enterprise LLM agent platform serving 100+ users on AWS EKS</li>
+        <li data-i18n="tl1_li1">Built and operate enterprise LLM agent platform serving 100+ users on AWS</li>
         <li data-i18n="tl1_li2">Production RAG pipelines with Elasticsearch for regulatory / legal document search</li>
         <li data-i18n="tl1_li3">AI agent &amp; chatbot development with Dify; workflow automation with n8n</li>
         <li data-i18n="tl1_li4">LLM observability and cost monitoring with Langfuse</li>
@@ -398,64 +704,99 @@ footer{padding:44px 0}
     <div class="sec-tag" data-i18n="edu_tag">Education</div>
     <h2 data-i18n="edu_h2">Academic Background</h2>
   </div>
-  <div class="edu-grid">
-    <div class="edu reveal">
-      <div class="edu-top"><span class="edu-icon">&#127891;</span><span class="badge badge-other" data-i18n="edu0_period">2026 &mdash; Present</span></div>
-      <h3 data-i18n="edu0_degree">M.S. Computer Science</h3>
-      <div class="edu-sub" data-i18n="edu0_degree2">+ Specialized in Artificial Intelligence</div>
-      <div class="edu-sub" data-i18n="edu0_school">E&ouml;tv&ouml;s Lor&aacute;nd University</div>
-      <p data-i18n="edu0_note"><strong>Stipendium Hungaricum Scholarship Recipient:</strong> Awarded full government scholarship for Master's degree in Artificial Intelligence (Budapest, Hungary).</p>
+  <div class="ledger">
+    <div class="led-group" data-i18n="edu_group_degree">Degrees</div>
+    <div class="led-row reveal">
+      <div class="led-year" data-i18n="edu0_year">2026</div>
+      <div class="led-body">
+        <div class="led-top">
+          <h3 data-i18n="edu0_degree">M.S. Computer Science</h3>
+          <span class="badge badge-other" data-i18n="edu0_period">2026 &mdash; Present</span>
+        </div>
+        <div class="led-sub" data-i18n="edu0_degree2">+ Specialized in Artificial Intelligence</div>
+        <div class="led-school" data-i18n="edu0_school">E&ouml;tv&ouml;s Lor&aacute;nd University &mdash; Budapest, Hungary</div>
+        <p data-i18n="edu0_note"><strong>Stipendium Hungaricum Scholarship Recipient:</strong> Awarded full government scholarship for Master's degree in Artificial Intelligence (Budapest, Hungary).</p>
+      </div>
     </div>
-    <div class="edu reveal">
-      <div class="edu-top"><span class="edu-icon">&#127891;</span><span class="badge badge-other" data-i18n="edu1_period">Graduated 2023</span></div>
-      <h3 data-i18n="edu1_degree">B.S. Mechanical &amp; Biomedical Engineering</h3>
-      <div class="edu-sub" data-i18n="edu1_degree2">+ Double Major in Philosophy</div>
-      <div class="edu-sub" data-i18n="edu1_school">Ewha Womans University</div>
-      <p data-i18n="edu1_note"><strong>Engineering thesis (Grand Prize):</strong> Reaction Wheel balance &amp; direction control prototype using PID control &mdash; awarded research funding, extended into first-author SCI paper (IEEE Access, 2023).</p>
+    <div class="led-row reveal">
+      <div class="led-year" data-i18n="edu1_year">2023</div>
+      <div class="led-body">
+        <div class="led-top">
+          <h3 data-i18n="edu1_degree">B.S. Mechanical &amp; Biomedical Engineering</h3>
+          <span class="badge badge-other" data-i18n="edu1_period">Graduated 2023</span>
+        </div>
+        <div class="led-sub" data-i18n="edu1_degree2">+ Double Major in Philosophy</div>
+        <div class="led-school" data-i18n="edu1_school">Ewha Womans University &mdash; Seoul, Korea</div>
+        <p data-i18n="edu1_note"><strong>Engineering thesis (Grand Prize):</strong> Reaction Wheel balance &amp; direction control prototype using PID control &mdash; awarded research funding, extended into first-author SCI paper (IEEE Access, 2023).</p>
+      </div>
     </div>
-    <div class="edu reveal">
-      <div class="edu-top"><span class="edu-icon">&#128218;</span><span class="badge badge-other" data-i18n="edu2_period">Oct 2023 &mdash; Dec 2023</span></div>
-      <h3 data-i18n="edu2_degree">POSCO AI &amp; BigData Academy</h3>
-      <div class="edu-sub" data-i18n="edu2_school">POSCO HRD &times; POSTECH</div>
-      <p data-i18n="edu2_note">Intensive ML/DL program &middot; Project Excellence Award</p>
+    <div class="led-group" data-i18n="edu_group_program">Intensive Programs</div>
+    <div class="led-row reveal">
+      <div class="led-year" data-i18n="edu5_year">2025</div>
+      <div class="led-body">
+        <div class="led-top">
+          <h3 data-i18n="edu5_degree">AIFFEL LLM Engineering Course</h3>
+          <span class="badge badge-other" data-i18n="edu5_period">Aug 2025 &mdash; Nov 2025</span>
+        </div>
+        <div class="led-school" data-i18n="edu5_school">Modulabs &mdash; Korea</div>
+        <p data-i18n="edu5_note">204 hours &middot; RAG &amp; LLM Agent development</p>
+      </div>
     </div>
-    <div class="edu reveal">
-      <div class="edu-top"><span class="edu-icon">&#128218;</span><span class="badge badge-other" data-i18n="edu5_period">Aug 2025 &mdash; Nov 2025</span></div>
-      <h3 data-i18n="edu5_degree">AIFFEL LLM Engineering Course</h3>
-      <div class="edu-sub" data-i18n="edu5_school">Modulabs</div>
-      <p data-i18n="edu5_note">204 hours &middot; RAG &amp; LLM Agent development</p>
+    <div class="led-row reveal">
+      <div class="led-year" data-i18n="edu2_year">2023</div>
+      <div class="led-body">
+        <div class="led-top">
+          <h3 data-i18n="edu2_degree">POSCO AI &amp; BigData Academy</h3>
+          <span class="badge badge-other" data-i18n="edu2_period">Oct 2023 &mdash; Dec 2023</span>
+        </div>
+        <div class="led-school" data-i18n="edu2_school">POSCO HRD &times; POSTECH &mdash; Korea</div>
+        <p data-i18n="edu2_note">Intensive ML/DL program &middot; Project Excellence Award</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="wrap">
-  <div class="grid-2">
-    <div>
-      <div class="sec-head reveal">
-        <div class="sec-tag" data-i18n="awards_tag">Awards &amp; Certifications</div>
-        <h2 data-i18n="awards_h2">Recognition</h2>
-      </div>
-      <div class="reveal">
-        <div class="award"><b data-i18n="award1">&#127942; Capstone Design Grand Prize &mdash; Ewha Womans University</b></div>
-        <div class="award"><b data-i18n="award2">&#127942; POSCO AI BigData Academy &mdash; Project Excellence Award</b></div>
-        <div class="award"><span data-i18n="award3">&#129706; ADsP &mdash; Data Analysis Semi-Professional (Korea Data Industry Promotion Institute)</span></div>
-        <div class="award"><span data-i18n="award4">&#129706; SQLD &mdash; SQL Developer (Korea Data Industry Promotion Institute)</span></div>
-      </div>
+<section id="awards" class="wrap">
+  <div class="sec-head reveal">
+    <div class="sec-tag" data-i18n="awards_tag">Awards &amp; Certifications</div>
+    <h2 data-i18n="awards_h2">Recognition</h2>
+  </div>
+  <div class="awards-grid">
+    <div class="award reveal">
+      <span class="award-kind" data-i18n="award_kind_award">Award</span>
+      <div class="award-t" data-i18n="award1_t">Capstone Design Grand Prize</div>
+      <div class="award-s" data-i18n="award1_s">Ewha Womans University</div>
     </div>
-    <div>
-      <div class="sec-head reveal">
-        <div class="sec-tag" data-i18n="tech_tag">Tech Stack</div>
-        <h2 data-i18n="tech_h2">Tools &amp; Technologies</h2>
-      </div>
-      <div class="reveal">
-        <div class="cat"><div class="cat-name">LLM / AI</div><div class="chips"><span>Dify</span><span>LangChain</span><span>Langfuse</span><span>RAG</span><span>LoRA</span><span>Prompt Engineering</span></div></div>
-        <div class="cat"><div class="cat-name">Search &amp; Retrieval</div><div class="chips"><span>Elasticsearch</span><span>BM25</span><span>Vector DB</span><span>Kiwi</span></div></div>
-        <div class="cat"><div class="cat-name">Infrastructure</div><div class="chips"><span>AWS EKS</span><span>Terraform</span><span>Kubernetes</span><span>Docker</span></div></div>
-        <div class="cat"><div class="cat-name">Backend &amp; Automation</div><div class="chips"><span>Python</span><span>FastAPI</span><span>n8n</span></div></div>
-        <div class="cat"><div class="cat-name">Auth &amp; Monitoring</div><div class="chips"><span>Keycloak</span><span>OAuth</span><span>Langfuse</span><span>CloudWatch</span></div></div>
-        <div class="cat"><div class="cat-name" data-i18n="tech_lang_cat">Languages</div><div class="chips"><span data-i18n="tech_lang1">Korean (Native)</span><span data-i18n="tech_lang2">English (Business Level)</span></div></div>
-      </div>
+    <div class="award reveal">
+      <span class="award-kind" data-i18n="award_kind_award">Award</span>
+      <div class="award-t" data-i18n="award2_t">Project Excellence Award</div>
+      <div class="award-s" data-i18n="award2_s">POSCO AI BigData Academy</div>
     </div>
+    <div class="award reveal">
+      <span class="award-kind" data-i18n="award_kind_cert">Certification</span>
+      <div class="award-t" data-i18n="award3_t">ADsP &mdash; Data Analysis Semi-Professional</div>
+      <div class="award-s" data-i18n="award3_s">Korea Data Industry Promotion Institute</div>
+    </div>
+    <div class="award reveal">
+      <span class="award-kind" data-i18n="award_kind_cert">Certification</span>
+      <div class="award-t" data-i18n="award4_t">SQLD &mdash; SQL Developer</div>
+      <div class="award-s" data-i18n="award4_s">Korea Data Industry Promotion Institute</div>
+    </div>
+  </div>
+</section>
+
+<section id="tech" class="wrap">
+  <div class="sec-head reveal">
+    <div class="sec-tag" data-i18n="tech_tag">Tech Stack</div>
+    <h2 data-i18n="tech_h2">Tools &amp; Technologies</h2>
+  </div>
+  <div class="tech-grid">
+    <div class="cat reveal"><div class="cat-name">LLM / AI</div><div class="chips"><span>Dify</span><span>LangChain</span><span>Langfuse</span><span>RAG</span><span>Prompt Engineering</span></div></div>
+    <div class="cat reveal"><div class="cat-name">Search &amp; Retrieval</div><div class="chips"><span>Elasticsearch</span><span>BM25</span><span>Vector DB</span></div></div>
+    <div class="cat reveal"><div class="cat-name">Infrastructure</div><div class="chips"><span>AWS</span><span>Terraform</span><span>Kubernetes</span><span>Docker</span></div></div>
+    <div class="cat reveal"><div class="cat-name">Backend &amp; Automation</div><div class="chips"><span>Python</span><span>FastAPI</span><span>n8n</span></div></div>
+    <div class="cat reveal"><div class="cat-name">Auth &amp; Monitoring</div><div class="chips"><span>Keycloak</span><span>OAuth</span><span>Langfuse</span><span>CloudWatch</span></div></div>
+    <div class="cat reveal"><div class="cat-name" data-i18n="tech_lang_cat">Languages</div><div class="chips"><span data-i18n="tech_lang1">Korean (Native)</span><span data-i18n="tech_lang2">English (Business Level)</span></div></div>
   </div>
 </section>
 
@@ -464,17 +805,11 @@ footer{padding:44px 0}
     <div class="sec-tag" data-i18n="about_tag">About</div>
     <h2 data-i18n="about_h2">A little about me</h2>
   </div>
-  <div class="about-grid">
-    <div class="reveal">
-      <p class="about-lead" data-i18n="about_lead">Engineer-turned-AI-developer who <span class="accent">ships real systems</span> &mdash; from front-end to infra.</p>
+  <div class="about-lead-wrap">
+    <p class="about-lead reveal" data-i18n="about_lead">Engineer-turned-AI-developer who <span class="accent">ships real systems</span> &mdash; from front-end to infra.</p>
+    <div class="about-cols reveal">
       <p data-i18n="about_p1">I started in HVAC &amp; mechanical design, moved into AI/LLM engineering, and now build enterprise RAG + agent systems that people rely on daily. I like owning the whole path: designing it, building it, deploying it, and keeping it running.</p>
       <p data-i18n="about_p2">Currently pursuing an M.S. in Computer Science (AI) at E&ouml;tv&ouml;s Lor&aacute;nd University, Budapest.</p>
-    </div>
-    <div class="reveal">
-      <div class="mini"><div class="k" data-i18n="about_k1">Now</div><div class="v" data-i18n="about_v1">M.S. Computer Science &middot; AI</div><div class="s" data-i18n="about_s1">E&ouml;tv&ouml;s Lor&aacute;nd University, Budapest</div></div>
-      <div class="mini"><div class="k" data-i18n="about_k2">Experience</div><div class="v" data-i18n="about_v2">AI / LLM Developer</div><div class="s" data-i18n="about_s2">Dongmyeong E&amp;C &middot; R&amp;D Institute</div></div>
-      <div class="mini"><div class="k" data-i18n="about_k3">Recognition</div><div class="v" data-i18n="about_v3">IEEE Access &mdash; SCI paper</div><div class="s" data-i18n="about_s3">1st author &middot; POSCO Excellence Award</div></div>
-      <div class="mini"><div class="k" data-i18n="about_k4">Languages</div><div class="v" data-i18n="about_v4">Korean (native) &middot; English (business)</div><div class="s" data-i18n="about_s4">Hungarian &mdash; learning</div></div>
     </div>
   </div>
 </section>
@@ -485,9 +820,9 @@ footer{padding:44px 0}
       <div class="sec-tag" data-i18n="contact_tag">Contact</div>
       <h2 data-i18n="contact_h2">Let's build<br>something.</h2>
     </div>
-    <a href="mailto:chaninjung7@gmail.com" class="mail">chaninjung7@gmail.com</a>
+    <!-- the address itself is never printed on the page; the buttons below carry it -->
     <div class="contact-links">
-      <a href="mailto:chaninjung7@gmail.com" class="btn btn-accent" data-i18n="contact_email">Email me</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=chaninjung7@gmail.com" target="_blank" rel="noopener" class="btn btn-accent" data-i18n="contact_email">Email me</a>
       <a href="https://github.com/chaninjung" target="_blank" class="btn btn-ghost">GitHub</a>
       <a href="https://linkedin.com/in/chaninjung" target="_blank" class="btn btn-ghost">LinkedIn</a>
     </div>
@@ -501,11 +836,13 @@ footer{padding:44px 0}
       <a href="#work" data-i18n="nav_work">Work</a>
       <a href="#about" data-i18n="about_tag">About</a>
       <a href="https://github.com/chaninjung" target="_blank">GitHub</a>
-      <a href="mailto:chaninjung7@gmail.com">Email</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=chaninjung7@gmail.com" target="_blank" rel="noopener">Email</a>
     </div>
     <small data-i18n="footer_copy">&copy; 2026 Chanin Jung</small>
   </div>
 </footer>
+
+</div><!-- /lt -->
 
 <script>
       const i18n = {
@@ -516,45 +853,34 @@ footer{padding:44px 0}
         hero_cta2: "View work",
         stat_lbl1: "Users served",
         stat_lbl2: "Years in AI",
-        stat_lbl3: "IEEE SCI paper",
-        stat_lbl4: "Production services",
+        stat_lbl3: "Research papers",
+        stat_lbl4: "Production systems",
         about_tag: "About",
         about_h2: "A little about me",
         about_lead: 'Engineer-turned-AI-developer who <span class="accent">ships real systems</span> &mdash; from front-end to infra.',
         about_p1: "I started in HVAC &amp; mechanical design, moved into AI/LLM engineering, and now build enterprise RAG + agent systems that people rely on daily. I like owning the whole path: designing it, building it, deploying it, and keeping it running.",
         about_p2: "Currently pursuing an M.S. in Computer Science (AI) at E&ouml;tv&ouml;s Lor&aacute;nd University, Budapest.",
-        about_k1: "Now", about_v1: "M.S. Computer Science &middot; AI", about_s1: "E&ouml;tv&ouml;s Lor&aacute;nd University, Budapest",
-        about_k2: "Experience", about_v2: "AI / LLM Developer", about_s2: "Dongmyeong E&amp;C &middot; R&amp;D Institute",
-        about_k3: "Recognition", about_v3: "IEEE Access &mdash; SCI paper", about_s3: "1st author &middot; POSCO Excellence Award",
-        about_k4: "Languages", about_v4: "Korean (native) &middot; English (business)", about_s4: "Hungarian &mdash; learning",
         contact_tag: "Contact",
         contact_h2: "Let's build<br>something.",
         contact_email: "Email me",
-        nav_story: "Story",
         nav_work: "Work",
         nav_research: "Research",
         nav_experience: "Experience",
         nav_education: "Education",
         nav_contact: "Contact",
         hero_eyebrow: "Open to opportunities",
-        last_updated: "Updated Sep 2026",
+        rail_expertise: "My Expertise",
         hero_h1_1: "AI/LLM Developer",
-        hero_h1_2: "who ships",
-        hero_h1_3: "production",
-        hero_h1_4: "systems.",
         hero_desc: "I build enterprise AI systems that real people use every day — not prototypes. Engineering background, hands-on LLM ops.",
-        scroll_hint: "Scroll to explore",
-        stat1_lbl: "Regulatory Document Search",
-        stat2_lbl: "~$0.025 — Optimized Cost",
-        stat3_lbl: "Production System in Live Use",
         work_tag: "Work",
         work_h2: "What I've Built",
+        work_points: "Key points",
         p1_h3: "Enterprise LLM Agent Platform",
         p1_badge: "Production",
         p1_desc: "AI agent serving 100+ users across 6 departments at a 1,700-employee construction engineering company. Users ask regulatory questions in Mattermost — the agent retrieves answers with cited legal references.",
         p1_li1: "Dify-based LLM Agent autonomously calls 3 data sources: Korean Construction Standards API, National Legislation API, Gemini web grounding",
         p1_li2: "Full round-trip pipeline: Mattermost &rarr; n8n &rarr; Dify Agent &rarr; n8n &rarr; Mattermost",
-        p1_li3: "21 pods, 6 open-source services on AWS EKS &mdash; Keycloak SSO across 5 tools, CI/CD via GitHub Actions",
+        p1_li3: "21 pods, 6 open-source services on AWS &mdash; Keycloak SSO across 5 tools, CI/CD via GitHub Actions",
         p1_li4: "Regulatory document search time: 1 week &rarr; 1 minute",
         p1_li5: "Query cost: &#8361;33/query (~$0.025)",
         p7_h3: "Huko News — A Live Full-Stack Web Service",
@@ -563,12 +889,6 @@ footer{padding:44px 0}
         p7_li1: "Designed &amp; built the site from scratch — responsive front-end (HTML/CSS/JS), article / category / search pages, and a lesson-material library",
         p7_li2: "Engineered the Python content engine: news collection &rarr; LLM rewriting &amp; level-grading &rarr; trilingual translation (KOR/ENG/HU) &rarr; image sourcing &rarr; TTS audio",
         p7_li3: "Ships daily via GitHub Actions to Cloudflare Pages (07:00 KST), with SEO automation (sitemap, IndexNow) and AdSense monetization",
-        p2_h3: "Hybrid Retrieval RAG Pipeline",
-        p2_badge: "In Progress",
-        p2_desc: "BM25 + Elasticsearch hybrid retrieval system for 3,500+ Korean regulatory documents, with morphological analysis (Kiwi tokenizer) and query decomposition.",
-        p2_li1: "BM25-based retrieval with Korean morphological analysis (Kiwi)",
-        p2_li2: "84% verification accuracy with 0 false positives",
-        p2_li3: "Structure-preserving document preprocessing pipeline — 78% token reduction",
         p4_h3: "Li-ion Battery Defect Rate Reduction via XGBoost",
         p4_badge: "POSCO Academy · Award",
         p4_desc: "Analyzed real production data from a lithium-ion battery formation process to identify defect-causing factors and build a predictive model to reduce the defect rate.",
@@ -584,23 +904,18 @@ footer{padding:44px 0}
         p5_li3: "Turning class mAP50: 0.969 → <strong>0.991</strong> after GAN augmentation; final ripeness mAP50: <strong>0.973</strong>",
         p5_li4: "Disease model: compared YOLOv5/v6/v8 → YOLOv5 selected at mAP50 <strong>0.991</strong>",
         p5_li5: "RFID + Arduino for tomato location tracking; Flask web dashboard for real-time detection feed",
-        p5_li6: 'Augmented dataset published: <a href="https://universe.roboflow.com/posco-wyx1a/copy_project_agumentation_7831" target="_blank" style="color: var(--accent);">Roboflow ↗</a>',
-        p6_h3: "CAD LISP Code Generation — LoRA Fine-tuning",
-        p6_badge: "Research",
-        p6_desc: "Fine-tuned an LLM on CAD LISP — a niche domain-specific language used in construction CAD workflows — to enable accurate code generation for a language with virtually no public training data.",
-        p6_li1: "Built an LLM-based data augmentation pipeline to generate training data from scratch — CAD LISP has almost no open-source corpus",
-        p6_li2: "Incorporated Chain-of-Thought prompting into training data; applied LoRA fine-tuning to inject domain-specific function patterns",
-        p6_li3: "Evaluated with LLM-as-Judge (model verifying code correctness): accuracy <strong>43% → 92%</strong>",
         research_tag: "Research",
         research_h2: "Publications &amp; Academic Work",
         paper_year: "2023 &nbsp;·&nbsp; First Author",
-        paper2_year: "2026 &nbsp;&middot;&nbsp; First Author &nbsp;&middot;&nbsp; Conditionally Accepted (Under Revision)",
-        paper2_abstract: "A domain-specific RAG system for Korean construction regulations. A structure-preserving Markdown&ndash;HTML preprocessing pipeline reduces token overhead by 78%, and BM25-based sparse retrieval with Kiwi morphological decomposition enables clause-level terminology alignment and citation-grounded verification. Evaluation on 50 expert-curated compliance questions shows improved accuracy (76.0% &rarr; 84.0%) and elimination of false positives (11 &rarr; 0). Presentation scheduled at ASCE i3CE 2026, Songdo, June 2026.",
+        paper2_year: "2026 &nbsp;&middot;&nbsp; First Author",
+        paper2_pub_note: "Proceedings 2026 &mdash; <strong>not published yet</strong>; the ASCE volume is due next year. The link opens the i3CE proceedings listing on the ASCE Library.",
+        paper2_abstract: "A domain-specific RAG system for Korean construction regulations. A structure-preserving Markdown&ndash;HTML preprocessing pipeline reduces token overhead by 78%, and BM25-based sparse retrieval with morphological decomposition enables clause-level terminology alignment and citation-grounded verification. Evaluation on 50 expert-curated compliance questions shows improved accuracy (76.0% &rarr; 84.0%) and elimination of false positives (11 &rarr; 0). Presented at ASCE i3CE 2026, Songdo, June 2026.",
         ps2_lbl1: "Accuracy (vs 76% standalone)",
         ps2_lbl2: "Recall@5",
         ps2_lbl3: "False Positives (vs 11)",
         ps2_lbl4: "Token reduction",
         paper_abstract: "The capstone design project won the Grand Prize (2021) and was awarded research funding to continue development. The PID-controlled reaction wheel system was then fully redesigned for this SCI paper: replaced PID with SVR (Support Vector Regression), and replaced the single reaction wheel with a counter-rotating hoop — two wheels spinning in opposite directions to achieve more stable, bidirectional balance control. SVR predicted the required PWM voltage at each tilt angle; hyperparameter optimization with RBF kernel achieved 98.2% correlation.",
+        paper_video_cap: "Lab demo &mdash; the prototype holds balance at a 23&deg; lean angle (loops)",
         ps_lbl1: "Balance correction accuracy",
         ps_lbl2: "Tilt correction range",
         ps_lbl3: "Avg. recovery time",
@@ -610,7 +925,7 @@ footer{padding:44px 0}
         tl1_period: "Feb 2024 &mdash; Apr 2026",
         tl1_title: "AI Developer &mdash; LLM / RAG Engineer",
         tl1_place: "Dongmyeong Engineering &amp; Construction (DMEC) &mdash; Seoul, Korea",
-        tl1_li1: "Built and operate enterprise LLM agent platform serving 100+ users on AWS EKS",
+        tl1_li1: "Built and operate enterprise LLM agent platform serving 100+ users on AWS",
         tl1_li2: "Production RAG pipelines with Elasticsearch for regulatory / legal document search",
         tl1_li3: "AI agent &amp; chatbot development with Dify; workflow automation with n8n",
         tl1_li4: "LLM observability and cost monitoring with Langfuse",
@@ -623,63 +938,47 @@ footer{padding:44px 0}
         tl2_li3: "This domain knowledge became the foundation for the AI systems I later built",
         edu_tag: "Education",
         edu_h2: "Academic Background",
+        edu_group_degree: "Degrees",
+        edu_group_program: "Intensive Programs",
         edu0_degree: "M.S. Computer Science",
         edu0_degree2: "+ Specialized in Artificial Intelligence",
-        edu0_school: "Eötvös Loránd University",
+        edu0_school: "Eötvös Loránd University &mdash; Budapest, Hungary",
         edu0_period: "2026 &mdash; Present",
+        edu0_year: "2026",
         edu0_note: "<strong>Stipendium Hungaricum Scholarship Recipient:</strong> Awarded full government scholarship for Master's degree in Artificial Intelligence (Budapest, Hungary).",
         edu1_degree: "B.S. Mechanical &amp; Biomedical Engineering",
         edu1_degree2: "+ Double Major in Philosophy",
-        edu1_school: "Ewha Womans University",
+        edu1_school: "Ewha Womans University &mdash; Seoul, Korea",
         edu1_period: "Graduated 2023",
+        edu1_year: "2023",
         edu1_note: '<strong>Engineering thesis (Grand Prize):</strong> Reaction Wheel balance &amp; direction control prototype using PID control — awarded research funding, extended into first-author SCI paper (IEEE Access, 2023).<br><br><strong>Philosophy thesis (Outstanding Award):</strong> <em>"The Structure of Continuous Scientific Revolutions"</em> — Proposed a new reading of Kuhn\'s paradigm shift theory, arguing that scientific revolutions are structurally continuous, not discontinuous. Published in the department\'s philosophy magazine.',
         edu2_degree: "POSCO AI &amp; BigData Academy",
-        edu2_school: "POSCO HRD &times; POSTECH",
+        edu2_school: "POSCO HRD &times; POSTECH &mdash; Korea",
         edu2_period: "Oct 2023 &mdash; Dec 2023",
+        edu2_year: "2023",
         edu2_note: "3 Mos &middot; Intensive ML/DL program &middot; Project Excellence Award",
-        edu3_degree: "SQLD — SQL Developer",
-        edu3_school: "Korea Data Industry Promotion Institute",
-        edu3_period: "Apr 2024",
-        edu3_note: "Certified in SQL query design, database modeling, and optimization.",
-        edu4_degree: "ADsP — Data Analysis Semi-Professional",
-        edu4_school: "Korea Data Industry Promotion Institute",
-        edu4_period: "Mar 2024",
-        edu4_note: "Certified in data analysis methodology, statistics, and machine learning fundamentals.",
         edu5_degree: "AIFFEL LLM Engineering Course",
-        edu5_school: "Modulabs",
+        edu5_school: "Modulabs &mdash; Korea",
         edu5_period: "Aug 2025 &mdash; Nov 2025",
+        edu5_year: "2025",
         edu5_note: "204 hours &middot; RAG &amp; LLM Agent development",
         awards_tag: "Awards &amp; Certifications",
         awards_h2: "Recognition",
-        award_cat1: "2021 &middot; Award",
-        award_cat2: "2023 &middot; Award",
-        award_cat3: "2024 &middot; Certifications",
-        award1: "🏆 Capstone Design Grand Prize — Ewha Womans University",
-        award2: "🏆 POSCO AI BigData Academy — Project Excellence Award",
-        award3: "🪪 ADsP — Data Analysis Semi-Professional (Korea Data Industry Promotion Institute)",
-        award4: "🪪 SQLD — SQL Developer (Korea Data Industry Promotion Institute)",
+        award_kind_award: "Award",
+        award_kind_cert: "Certification",
+        award1_t: "Capstone Design Grand Prize",
+        award1_s: "Ewha Womans University",
+        award2_t: "Project Excellence Award",
+        award2_s: "POSCO AI BigData Academy",
+        award3_t: "ADsP — Data Analysis Semi-Professional",
+        award3_s: "Korea Data Industry Promotion Institute",
+        award4_t: "SQLD — SQL Developer",
+        award4_s: "Korea Data Industry Promotion Institute",
         tech_tag: "Tech Stack",
         tech_h2: "Tools &amp; Technologies",
         tech_lang_cat: "Languages",
         tech_lang1: "Korean (Native)",
         tech_lang2: "English (Business Level)",
-        bg_tag: "Background",
-        bg_h2: "The Story",
-        st1_label: "👔 HVAC Engineer",
-        st1_sub: "Building Systems Design Firms · 4+ yrs",
-        st2_label: "🎓 B.S. Ewha Womans Univ.",
-        st2_sub: "Seoul, Korea<br>Mechanical &amp; Biomedical Eng. + Philosophy",
-        st3_label: "🏆 Capstone Grand Prize",
-        st3_sub: "Dept. 1st — Research funding awarded",
-        st4a_label: "🎓 SCI Paper (IEEE Access)",
-        st4a_sub: "1st Author &middot; Graduation",
-        st4b_label: "🏆 POSCO AI Academy",
-        st4b_sub: "Project Excellence Award",
-        st5_label: "👔 AI / LLM Developer",
-        st5_sub: "Civil Eng. Firm · R&D Institute<br>AI Team · RAG &amp; Agents · 2+ yrs",
-        st6_year: "Now",
-        st6_label: "🎓 M.S. Eötvös Loránd University",
-        st6_sub: "Budapest, Hungary<br>Computer Science · Specialized in AI",
         footer_copy: "&copy; 2026 Chanin Jung",
       },
       ko: {
@@ -689,45 +988,34 @@ footer{padding:44px 0}
         hero_cta2: "작업 보기",
         stat_lbl1: "서비스 사용자",
         stat_lbl2: "AI 경력",
-        stat_lbl3: "IEEE SCI 논문",
-        stat_lbl4: "프로덕션 서비스",
+        stat_lbl3: "학술 논문",
+        stat_lbl4: "프로덕션 시스템",
         about_tag: "소개",
         about_h2: "저에 대하여",
         about_lead: '기획부터 인프라까지 <span class="accent">실제 시스템을 만드는</span> 엔지니어 출신 AI 개발자.',
         about_p1: "HVAC·기계 설계에서 시작해 AI/LLM 엔지니어링으로 전환했고, 지금은 사람들이 매일 사용하는 엔터프라이즈 RAG·에이전트 시스템을 만듭니다. 설계부터 구축, 배포, 운영까지 전 과정을 직접 책임지는 것을 좋아합니다.",
         about_p2: "현재 부다페스트 Eötvös Loránd University에서 컴퓨터과학(AI) 석사 과정 중입니다.",
-        about_k1: "현재", about_v1: "컴퓨터과학 석사 · AI", about_s1: "Eötvös Loránd University, Budapest",
-        about_k2: "경력", about_v2: "AI / LLM 개발자", about_s2: "동명기술공단 · R&D 연구소",
-        about_k3: "수상", about_v3: "IEEE Access — SCI 논문", about_s3: "제1저자 · POSCO 우수상",
-        about_k4: "언어", about_v4: "한국어 (모국어) · 영어 (업무)", about_s4: "헝가리어 — 학습 중",
         contact_tag: "연락",
         contact_h2: "함께<br>만들어요.",
         contact_email: "이메일 보내기",
-        nav_story: "이야기",
         nav_work: "업무",
         nav_research: "연구",
         nav_experience: "경력",
         nav_education: "학력",
         nav_contact: "연락",
         hero_eyebrow: "구직 중",
-        last_updated: "업데이트: 2026.09",
+        rail_expertise: "전문 분야",
         hero_h1_1: "AI/LLM 개발자",
-        hero_h1_2: "실전",
-        hero_h1_3: "프로덕션",
-        hero_h1_4: "시스템 구축.",
         hero_desc: "프로토타입이 아닌, 실제 사람들이 매일 사용하는 기업용 AI 시스템을 만듭니다. 기계공학적 사고, 실전 LLM 운영 경험.",
-        scroll_hint: "스크롤하여 탐색",
-        stat1_lbl: "규정 문서 검색 시간",
-        stat2_lbl: "~$0.025 — 최적화된 쿼리 비용",
-        stat3_lbl: "실 운영 중인 프로덕션 시스템",
         work_tag: "업무",
         work_h2: "구축한 것들",
+        work_points: "주요 내용",
         p1_h3: "엔터프라이즈 LLM 에이전트 플랫폼",
         p1_badge: "프로덕션",
         p1_desc: "1,700명 규모 건설엔지니어링 회사의 6개 부서, 100명 이상 사용자에게 서비스하는 AI 에이전트. Mattermost에서 규정 질문을 하면 법적 참조와 함께 답변을 제공합니다.",
         p1_li1: "Dify 기반 LLM 에이전트가 3개 데이터 소스를 자율 호출: 건설기준 API, 법제처 API, Gemini 웹 그라운딩",
         p1_li2: "전체 파이프라인: Mattermost → n8n → Dify 에이전트 → n8n → Mattermost",
-        p1_li3: "AWS EKS에 21개 파드, 6개 오픈소스 서비스 — Keycloak SSO(5개 도구 통합), GitHub Actions CI/CD",
+        p1_li3: "AWS에 21개 파드, 6개 오픈소스 서비스 — Keycloak SSO(5개 도구 통합), GitHub Actions CI/CD",
         p1_li4: "규정 문서 검색 시간: 1주일 → 1분",
         p1_li5: "쿼리 비용: ₩33/쿼리 (~$0.025)",
         p7_h3: "후코 뉴스 — 직접 만든 풀스택 웹서비스",
@@ -736,12 +1024,6 @@ footer{padding:44px 0}
         p7_li1: "사이트를 처음부터 직접 설계·개발 — 반응형 프론트엔드(HTML/CSS/JS), 기사·카테고리·검색 페이지, 학습자료 라이브러리",
         p7_li2: "Python으로 콘텐츠 엔진 직접 구축: 뉴스 수집 &rarr; LLM 재작성·난이도 분류 &rarr; 3개 언어 번역(KOR/ENG/HU) &rarr; 이미지 수집 &rarr; TTS 오디오",
         p7_li3: "GitHub Actions로 Cloudflare Pages에 매일 자동 배포(07:00 KST), SEO 자동화(사이트맵, IndexNow) + AdSense 수익화",
-        p2_h3: "하이브리드 검색 RAG 파이프라인",
-        p2_badge: "개발 중",
-        p2_desc: "3,500개 이상 한국 규정 문서를 위한 BM25 + Elasticsearch 하이브리드 검색 시스템. 형태소 분석(Kiwi 토크나이저)과 쿼리 분해 적용.",
-        p2_li1: "Kiwi 형태소 분석 기반 BM25 검색",
-        p2_li2: "오탐(false positive) 0건으로 84% 검증 정확도",
-        p2_li3: "문서 구조 보존 전처리 파이프라인 — 토큰 78% 절감",
         p4_h3: "XGBoost 기반 리튬이온 배터리 불량률 감소",
         p4_badge: "POSCO 아카데미 · 수상",
         p4_desc: "리튬이온 배터리 화성 공정의 실제 생산 데이터를 분석하여 불량 원인 인자를 파악하고, 불량률을 줄이기 위한 예측 모델을 구축했습니다.",
@@ -757,23 +1039,18 @@ footer{padding:44px 0}
         p5_li3: "전환 클래스 mAP50: 0.969 → <strong>0.991</strong> (GAN 증강 후); 최종 숙성도 mAP50: <strong>0.973</strong>",
         p5_li4: "병충해 모델: YOLOv5/v6/v8 비교 → mAP50 <strong>0.991</strong>로 YOLOv5 선택",
         p5_li5: "RFID + Arduino를 활용한 토마토 위치 추적; Flask 웹 대시보드로 실시간 감지 피드",
-        p5_li6: '증강 데이터셋 공개: <a href="https://universe.roboflow.com/posco-wyx1a/copy_project_agumentation_7831" target="_blank" style="color: var(--accent);">Roboflow ↗</a>',
-        p6_h3: "CAD LISP 코드 생성 — LoRA 파인튜닝",
-        p6_badge: "연구",
-        p6_desc: "건설 CAD 워크플로우에서 사용되는 니치 도메인 언어인 CAD LISP에 LLM을 파인튜닝하여, 공개 학습 데이터가 거의 없는 언어의 코드 생성 정확도를 높인 연구.",
-        p6_li1: "CAD LISP 오픈소스 코퍼스가 거의 없어, LLM 기반 데이터 증강 파이프라인을 직접 구축하여 학습 데이터 확보",
-        p6_li2: "Chain-of-Thought 프롬프팅을 학습 데이터에 적용하여 LoRA 파인튜닝 — 도메인 함수 패턴 주입",
-        p6_li3: "LLM-as-Judge(모델이 코드 정확성 검증) 방식으로 평가: 코드 생성 정확도 <strong>43% → 92%</strong>",
         research_tag: "연구",
         research_h2: "논문 및 학술 활동",
         paper_year: "2023 &nbsp;·&nbsp; 제1저자",
-        paper2_year: "2026 &nbsp;&middot;&nbsp; 제1저자 &nbsp;&middot;&nbsp; Conditionally Accepted (수정 후 게재 예정)",
-        paper2_abstract: "한국 건설기준(KCSC) 도메인 특화 RAG 시스템. Markdown-HTML 전처리 파이프라인으로 토큰 78% 절감, BM25+Kiwi 형태소 분석 기반 Lexical Retrieval로 조항 수준 용어 정렬 및 인용 기반 검증 수행. 50개 전문가 벤치마크 평가 결과 정확도 76.0%→84.0% 향상, False Positive 11→0건. 2026년 6월 송도 ASCE i3CE 학회 발표 예정.",
+        paper2_year: "2026 &nbsp;&middot;&nbsp; 제1저자",
+        paper2_pub_note: "Proceedings 2026 &mdash; <strong>아직 출간 전</strong>이며 ASCE 논문집은 내년 발간 예정입니다. 링크는 ASCE Library의 i3CE 논문집 목록으로 연결됩니다.",
+        paper2_abstract: "한국 건설기준(KCSC) 도메인 특화 RAG 시스템. Markdown-HTML 전처리 파이프라인으로 토큰 78% 절감, BM25 + 형태소 분석 기반 Lexical Retrieval로 조항 수준 용어 정렬 및 인용 기반 검증 수행. 50개 전문가 벤치마크 평가 결과 정확도 76.0%→84.0% 향상, False Positive 11→0건. 2026년 6월 송도 ASCE i3CE 학회에서 발표.",
         ps2_lbl1: "정확도 (vs 76% 단독 LLM)",
         ps2_lbl2: "Recall@5",
         ps2_lbl3: "False Positive (vs 11건)",
         ps2_lbl4: "토큰 절감",
         paper_abstract: "캡스톤 디자인 프로젝트가 대상(2021)을 수상하고 연구비를 지원받아 후속 개발을 이어갔습니다. PID 제어 기반 반응 휠 시스템을 본 SCI 논문을 위해 전면 재설계: PID를 SVR(서포트 벡터 회귀)로 교체하고, 단일 반응 휠을 반대 방향으로 회전하는 두 개의 후프로 대체하여 더 안정적인 양방향 균형 제어를 구현했습니다. SVR이 각 기울기 각도에서 필요한 PWM 전압을 예측하며, RBF 커널로 하이퍼파라미터 최적화 시 98.2% 상관관계를 달성했습니다.",
+        paper_video_cap: "실험 데모 &mdash; 프로토타입이 23&deg; 기울기에서도 균형을 유지합니다 (반복 재생)",
         ps_lbl1: "균형 보정 정확도",
         ps_lbl2: "기울기 보정 범위",
         ps_lbl3: "평균 복원 시간",
@@ -783,7 +1060,7 @@ footer{padding:44px 0}
         tl1_period: "2024.02 — 2026.04",
         tl1_title: "AI 개발자 — LLM / RAG 엔지니어",
         tl1_place: "동명기술공단종합건축사사무소 (DMEC) — 서울, 한국",
-        tl1_li1: "AWS EKS에서 100명 이상 사용자에게 서비스하는 엔터프라이즈 LLM 에이전트 플랫폼 구축 및 운영",
+        tl1_li1: "AWS에서 100명 이상 사용자에게 서비스하는 엔터프라이즈 LLM 에이전트 플랫폼 구축 및 운영",
         tl1_li2: "규정/법률 문서 검색을 위한 Elasticsearch 기반 프로덕션 RAG 파이프라인",
         tl1_li3: "Dify를 활용한 AI 에이전트 및 챗봇 개발; n8n을 활용한 워크플로우 자동화",
         tl1_li4: "Langfuse를 활용한 LLM 관측성 및 비용 모니터링",
@@ -796,63 +1073,47 @@ footer{padding:44px 0}
         tl2_li3: "이 도메인 지식이 이후 구축한 AI 시스템의 기반이 됨",
         edu_tag: "학력",
         edu_h2: "학력 사항",
+        edu_group_degree: "학위",
+        edu_group_program: "집중 과정",
         edu0_degree: "M.S. 컴퓨터공학 석사",
         edu0_degree2: "+ AI (인공지능) 특화",
-        edu0_school: "Eötvös Loránd University (헝가리 부다페스트)",
+        edu0_school: "Eötvös Loránd University — 부다페스트, 헝가리",
         edu0_period: "2026년 &mdash; 재학 중",
+        edu0_year: "2026",
         edu0_note: "<strong>Stipendium Hungaricum 정부 장학생:</strong> 헝가리 정부 전액 장학생 선정, 인공지능(AI) 전공 석사 과정.",
         edu1_degree: "B.S. 기계·의공학 학사",
         edu1_degree2: "+ 철학 복수전공",
-        edu1_school: "이화여자대학교",
+        edu1_school: "이화여자대학교 — 서울, 한국",
         edu1_period: "2023년 졸업",
+        edu1_year: "2023",
         edu1_note: "<strong>공학 졸업논문 (대상):</strong> PID 제어를 활용한 반응 휠 균형 및 방향 제어 프로토타입 — 연구비 수주 후 제1저자 SCI 논문으로 발전 (IEEE Access, 2023).<br><br><strong>철학 졸업논문 (우수상):</strong> <em>「연속적 과학혁명의 구조」</em> — 쿤의 패러다임 전환 이론에 대한 새로운 해석 제안, 과학혁명은 구조적으로 연속적임을 논증. 학과 철학 잡지에 게재.",
         edu2_degree: "POSCO 청년 AI·빅데이터 아카데미",
-        edu2_school: "POSCO HRD × POSTECH",
+        edu2_school: "POSCO HRD × POSTECH — 한국",
         edu2_period: "2023.10 — 2023.12",
+        edu2_year: "2023",
         edu2_note: "3개월 · 집중 ML/DL 과정 · 프로젝트 우수상",
-        edu3_degree: "SQLD — SQL 개발자",
-        edu3_school: "한국데이터산업진흥원",
-        edu3_period: "2024.04",
-        edu3_note: "SQL 쿼리 설계, 데이터베이스 모델링 및 최적화 자격증.",
-        edu4_degree: "ADsP — 데이터분석 준전문가",
-        edu4_school: "한국데이터산업진흥원",
-        edu4_period: "2024.03",
-        edu4_note: "데이터 분석 방법론, 통계, 머신러닝 기초 자격증.",
         edu5_degree: "AIFFEL LLM Engineering Course",
-        edu5_school: "모두의연구소",
+        edu5_school: "모두의연구소 — 한국",
         edu5_period: "2025.08 — 2025.11",
+        edu5_year: "2025",
         edu5_note: "204시간 · RAG & LLM Agent 개발",
         awards_tag: "수상 및 자격",
         awards_h2: "수상 및 자격증",
-        award_cat1: "2021 · 수상",
-        award_cat2: "2023 · 수상",
-        award_cat3: "2024 · 자격증",
-        award1: "🏆 융합캡스톤디자인 대상 — 이화여자대학교",
-        award2: "🏆 POSCO AI 빅데이터 아카데미 — 프로젝트 우수상",
-        award3: "🪪 ADsP — 데이터분석 준전문가 (한국데이터산업진흥원)",
-        award4: "🪪 SQLD — SQL 개발자 (한국데이터산업진흥원)",
+        award_kind_award: "수상",
+        award_kind_cert: "자격증",
+        award1_t: "융합캡스톤디자인 대상",
+        award1_s: "이화여자대학교",
+        award2_t: "프로젝트 우수상",
+        award2_s: "POSCO AI 빅데이터 아카데미",
+        award3_t: "ADsP — 데이터분석 준전문가",
+        award3_s: "한국데이터산업진흥원",
+        award4_t: "SQLD — SQL 개발자",
+        award4_s: "한국데이터산업진흥원",
         tech_tag: "기술 스택",
         tech_h2: "도구 및 기술",
         tech_lang_cat: "언어",
         tech_lang1: "한국어 (모국어)",
         tech_lang2: "영어 (업무 수준)",
-        bg_tag: "배경",
-        bg_h2: "이야기",
-        st1_label: "👔 HVAC 설계 엔지니어",
-        st1_sub: "건축설비설계사무소 · 4년+",
-        st2_label: "🎓 B.S. 이화여자대학교",
-        st2_sub: "서울, 한국<br>기계·의공학 + 철학 복수전공",
-        st3_label: "🏆 캡스톤 대상",
-        st3_sub: "학과 1등 — 연구비 수주",
-        st4a_label: "🎓 SCI 논문 (IEEE Access)",
-        st4a_sub: "제1저자 · 졸업",
-        st4b_label: "🏆 POSCO AI 아카데미",
-        st4b_sub: "프로젝트 우수상",
-        st5_label: "👔 AI / LLM 개발자",
-        st5_sub: "토목회사 부설연구소 · AI팀<br>RAG · LLM 에이전트 · 2년+",
-        st6_year: "Now",
-        st6_label: "🎓 M.S. Eötvös Loránd University",
-        st6_sub: "부다페스트, 헝가리<br>컴퓨터공학 · AI 특화",
         footer_copy: "&copy; 2026 정찬인",
       }
     };
@@ -866,6 +1127,8 @@ footer{padding:44px 0}
     });
     document.documentElement.lang = currentLang;
     document.getElementById('lang-btn').textContent = currentLang === 'en' ? '한국어' : 'English';
+    const railLbl = document.querySelector('.rail-label');
+    if (railLbl) railLbl.classList.toggle('is-ko', currentLang === 'ko');
   }
   function toggleLang() { currentLang = currentLang === 'en' ? 'ko' : 'en'; applyLang(); }
 
@@ -894,6 +1157,91 @@ footer{padding:44px 0}
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Work — Mattermost cover: two shots of the same agent on one track. A short
+  // leftward drag (or a tap on the EN/KO pill) pulls the Korean shot in from the
+  // right and pushes the English one out to the left; a drag that stops short of
+  // the commit threshold snaps home. The offset is written as a percentage of the
+  // track, so resizing the frame needs no recalculation.
+  document.querySelectorAll('.na-swipe').forEach(frame => {
+    const track = frame.querySelector('.na-track');
+    const slides = [...frame.querySelectorAll('.na-slide')];
+    const pills = [...frame.querySelectorAll('.na-swipe-pill button')];
+    const last = slides.length - 1;
+    let i = 0, startX = 0, dx = 0, w = 1, t0 = 0, dragging = false;
+
+    const place = (offset = 0) => { track.style.transform = `translateX(calc(${i * -50}% + ${offset}px))`; };
+    const go = (n) => {
+      i = Math.max(0, Math.min(last, n));
+      slides.forEach((s, k) => s.setAttribute('aria-hidden', k !== i));
+      pills.forEach((b, k) => { b.classList.toggle('is-on', k === i); b.setAttribute('aria-pressed', k === i); });
+      place();
+    };
+
+    frame.addEventListener('pointerdown', e => {
+      if (e.button) return;
+      dragging = true; dx = 0; startX = e.clientX; t0 = e.timeStamp; w = frame.clientWidth;
+      frame.classList.add('is-dragging');
+      frame.setPointerCapture(e.pointerId);
+    });
+    frame.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      dx = e.clientX - startX;
+      const edge = (i === 0 && dx > 0) || (i === last && dx < 0);
+      place(edge ? dx * .3 : dx);              // rubber-band past the first/last shot
+    });
+    const drop = e => {
+      if (!dragging) return;
+      dragging = false;
+      frame.classList.remove('is-dragging');
+      const v = dx / Math.max(1, e.timeStamp - t0);                     // px per ms
+      const far = Math.abs(dx) > Math.min(64, w * .09);
+      go(far || Math.abs(v) > .4 ? i + (dx < 0 ? 1 : -1) : i);
+    };
+    frame.addEventListener('pointerup', drop);
+    frame.addEventListener('pointercancel', drop);
+    // the pill keeps its own click: swallowing the press stops the frame from
+    // capturing the pointer, which would retarget the click to the frame; the
+    // click is swallowed too, so on a touch screen switching the shot's language
+    // does not double as the tap that dismisses the caption bar
+    pills.forEach((b, k) => {
+      b.addEventListener('pointerdown', e => e.stopPropagation());
+      b.addEventListener('click', e => { e.stopPropagation(); go(k); });
+    });
+    go(0);
+  });
+
+  // Touch has no hover, so the caption bar takes over as the handle that slides the
+  // card out of the frame — the same travel the hover rule makes on a laptop. The
+  // bar is the only target that opens the card, so the cover that is a link still
+  // follows its link and the cover that is a swipe track still drags; once the card
+  // is away, a tap anywhere on the frame brings it back, which is also the only
+  // place left to tap because the bar has left the frame.
+  if (matchMedia('(hover:none)').matches) {
+    document.querySelectorAll('.na-cover').forEach(cover => {
+      const label = cover.querySelector('.na-label');
+      if (!label) return;
+      label.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();   // a link cover must not follow it
+        cover.classList.add('is-open');
+      });
+      cover.addEventListener('click', e => {
+        if (!cover.classList.contains('is-open')) return;
+        e.preventDefault(); e.stopPropagation();   // this tap dismisses, it does not navigate
+        cover.classList.remove('is-open');
+      });
+    });
+  }
+
+  // Research — the IEEE demo clip loops while it is on screen and parks itself once
+  // it scrolls away, so a 9 s loop is not still decoding behind the fold
+  document.querySelectorAll('.paper-video video').forEach(video => {
+    const videoIo = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) video.play().catch(() => {});   // the autoplay policy may refuse
+      else video.pause();
+    }, { threshold: .3 });
+    videoIo.observe(video);
+  });
 
   // keep initial view in sync with the dictionary
   applyLang();

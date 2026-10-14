@@ -406,9 +406,18 @@
       background: linear-gradient(90deg, transparent, var(--accent), var(--accent), transparent);
       opacity: 0.4;
     }
+    [id] {
+      scroll-margin-top: 90px;
+    }
+
     .story-node {
       display: flex; flex-direction: column; align-items: center;
       flex: 1; position: relative; padding: 0 6px;
+      text-decoration: none; cursor: pointer; color: inherit;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .story-node:hover {
+      transform: translateY(-2px);
     }
     .story-dot {
       width: 10px; height: 10px; border-radius: 50%;
@@ -434,6 +443,10 @@
     .story-node.highlight .story-year { color: var(--green); }
     .story-node.award .story-dot { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-bg); }
     .story-node.award .story-year { color: var(--amber); }
+    .story-node.work .story-dot { background: var(--blue); box-shadow: 0 0 0 3px var(--blue-bg); }
+    .story-node.work .story-year { color: var(--blue); }
+    .story-node.edu .story-dot { background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
+    .story-node.edu .story-year { color: var(--green); }
 
     @media (max-width: 768px) {
       .story-track { flex-direction: column; align-items: flex-start; gap: 0; padding-left: 20px; }
@@ -490,6 +503,7 @@
       <div class="logo">Chanin Jung</div>
       <div class="nav-right">
         <ul class="nav-links">
+          <li><a href="#story" data-i18n="nav_story">Story</a></li>
           <li><a href="#work" data-i18n="nav_work">Work</a></li>
           <li><a href="#research" data-i18n="nav_research">Research</a></li>
           <li><a href="#experience" data-i18n="nav_experience">Experience</a></li>
@@ -511,6 +525,8 @@
       <div class="eyebrow">
         <span class="dot"></span>
         <span data-i18n="hero_eyebrow">Open to opportunities</span>
+        <span style="opacity:0.35; margin:0 4px;">·</span>
+        <span data-i18n="last_updated">Updated Sep 2026</span>
       </div>
       <h1>
         <span data-i18n="hero_h1_1">AI/LLM Developer</span><br>
@@ -524,7 +540,7 @@
       <div class="hero-links">
         <a href="mailto:chaninjung7@gmail.com" class="btn-primary">
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          chaninjung7@gmail.com
+          <span data-i18n="hero_cta_email">Email me</span>
         </a>
         <a href="https://github.com/chaninjung" target="_blank" class="btn-ghost">
           <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.72-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.05.138 3 .4 2.28-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -557,6 +573,71 @@
       </div>
     </div>
 
+    <!-- Background / The Story -->
+    <section id="story">
+      <div class="section-heading reveal">
+        <div class="section-tag" data-i18n="bg_tag">Background</div>
+        <h2 data-i18n="bg_h2">The Story</h2>
+      </div>
+
+      <div class="about-block">
+        <div class="story-timeline reveal">
+          <div class="story-track">
+
+            <a href="#exp-hvac" class="story-node work">
+              <div class="story-dot"></div>
+              <div class="story-year">2014</div>
+              <div class="story-label" data-i18n="st1_label">👔 HVAC Engineer</div>
+              <div class="story-sub" data-i18n="st1_sub">Building Systems Design Firms · 4+ yrs</div>
+            </a>
+
+            <a href="#edu-ewha" class="story-node edu">
+              <div class="story-dot"></div>
+              <div class="story-year">2020</div>
+              <div class="story-label" data-i18n="st2_label">🎓 B.S. Ewha Womans Univ.</div>
+              <div class="story-sub" data-i18n="st2_sub">Seoul, Korea<br>Mechanical &amp; Biomedical Eng. + Philosophy</div>
+            </a>
+
+            <a href="#award-capstone" class="story-node award">
+              <div class="story-dot"></div>
+              <div class="story-year">2021</div>
+              <div class="story-label" data-i18n="st3_label">🏆 Capstone Grand Prize</div>
+              <div class="story-sub" data-i18n="st3_sub">Dept. 1st — Research funding awarded</div>
+            </a>
+
+            <a href="#paper-sci" class="story-node award">
+              <div class="story-dot"></div>
+              <div class="story-year">2023</div>
+              <div class="story-label" data-i18n="st4a_label">🎓 SCI Paper (IEEE Access)</div>
+              <div class="story-sub" data-i18n="st4a_sub">1st Author · Graduation</div>
+            </a>
+
+            <a href="#work-posco" class="story-node award">
+              <div class="story-dot"></div>
+              <div class="story-year">2023</div>
+              <div class="story-label" data-i18n="st4b_label">🏆 POSCO AI Academy</div>
+              <div class="story-sub" data-i18n="st4b_sub">Project Excellence Award</div>
+            </a>
+
+            <a href="#work-llm" class="story-node work">
+              <div class="story-dot"></div>
+              <div class="story-year">2024</div>
+              <div class="story-label" data-i18n="st5_label">👔 AI / LLM Developer</div>
+              <div class="story-sub" data-i18n="st5_sub">Civil Eng. Firm · R&D Institute<br>AI Team · RAG &amp; Agents · 2+ yrs</div>
+            </a>
+
+            <a href="#edu-elte" class="story-node edu">
+              <div class="story-dot"></div>
+              <div class="story-year" data-i18n="st6_year">Now</div>
+              <div class="story-label" data-i18n="st6_label">🎓 M.S. Eötvös Loránd University</div>
+              <div class="story-sub" data-i18n="st6_sub">Budapest, Hungary<br>Computer Science · Specialized in AI</div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Work -->
     <section id="work">
       <div class="section-heading reveal">
@@ -567,7 +648,7 @@
       <div class="work-grid">
 
         <!-- Project 1 -->
-        <div class="card reveal">
+        <div class="card reveal" id="work-llm">
           <div class="card-top">
             <h3 data-i18n="p1_h3">Enterprise LLM Agent Platform</h3>
             <span class="badge badge-prod" data-i18n="p1_badge">Production</span>
@@ -595,6 +676,8 @@
           </div>
         </div>
 
+
+
         <!-- Project 2 — Huko News -->
         <div class="card reveal" id="work-huko">
           <div class="card-top">
@@ -618,28 +701,8 @@
           </div>
         </div>
 
-        <!-- Project 3 — Music AI -->
-        <div class="card reveal">
-          <div class="card-top">
-            <h3 data-i18n="p3_h3">Music Mixing AI — Subjective Language &rarr; Audio Parameters</h3>
-            <span class="badge badge-personal" data-i18n="p3_badge">Personal</span>
-          </div>
-          <p class="card-desc" data-i18n="p3_desc">
-            A personal project exploring whether AI can interpret abstract expressions like "make it warmer"
-            or "add more air" and translate them into concrete audio effect parameters in a DAW.
-          </p>
-          <ul class="detail-list">
-            <li data-i18n="p3_li1">Built on REAPER (DAW) with an AI layer mapping natural language descriptions to EQ / reverb / compression values</li>
-            <li data-i18n="p3_li2">Core challenge: evaluating whether the AI actually understood the user's intent — not just returned a plausible answer</li>
-            <li data-i18n="p3_li3">Connects to broader research interest: how AI systems handle subjective, human-centric language</li>
-          </ul>
-          <div class="tags">
-            <span>Python</span><span>LLM</span><span>REAPER</span><span>Audio DSP</span><span>NLP</span>
-          </div>
-        </div>
-
         <!-- Project 4 — POSCO Battery -->
-        <div class="card reveal">
+        <div class="card reveal" id="work-posco">
           <div class="card-top">
             <h3 data-i18n="p4_h3">Li-ion Battery Defect Rate Reduction via XGBoost</h3>
             <span class="badge badge-research" data-i18n="p4_badge">POSCO Academy · Award</span>
@@ -757,7 +820,7 @@
       </div>
 
       <!-- SCI Paper -->
-      <div class="card paper-card reveal">
+      <div class="card paper-card reveal" id="paper-sci">
         <div class="paper-meta">
           <span class="paper-journal">IEEE Access &mdash; SCI</span>
           <span class="paper-year" data-i18n="paper_year">2023 &nbsp;·&nbsp; First Author</span>
@@ -811,8 +874,8 @@
       </div>
 
       <div class="timeline">
-        <div class="tl-item reveal">
-          <div class="tl-period" data-i18n="tl1_period">Feb 2024 &mdash; Present</div>
+        <div class="tl-item reveal" id="exp-ai">
+          <div class="tl-period" data-i18n="tl1_period">Feb 2024 &mdash; Apr 2026</div>
           <div class="tl-title" data-i18n="tl1_title">AI Developer &mdash; LLM / RAG Engineer</div>
           <div class="tl-place" data-i18n="tl1_place">Dongmyeong Engineering &amp; Construction (DMEC) &mdash; Seoul, Korea</div>
           <ul class="tl-desc">
@@ -824,7 +887,7 @@
           </ul>
         </div>
 
-        <div class="tl-item reveal">
+        <div class="tl-item reveal" id="exp-hvac">
           <div class="tl-period" data-i18n="tl2_period">Oct 2014 &mdash; Feb 2019 &nbsp;(4 yrs 3 mos)</div>
           <div class="tl-title" data-i18n="tl2_title">HVAC &amp; Mechanical Design Engineer</div>
           <div class="tl-place" data-i18n="tl2_place">Building Systems Design Firms &mdash; Seoul, Korea</div>
@@ -845,7 +908,18 @@
       </div>
 
       <div class="edu-grid reveal">
-        <div class="edu-card">
+        <div class="edu-card" id="edu-elte">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-degree" data-i18n="edu0_degree">M.S. Computer Science</div>
+          <div class="edu-degree" style="font-size:0.88rem; margin-top:2px;" data-i18n="edu0_degree2">+ Specialized in Artificial Intelligence</div>
+          <div class="edu-school" data-i18n="edu0_school">Eötvös Loránd University</div>
+          <div class="edu-period" data-i18n="edu0_period">2026 &mdash; Present</div>
+          <div class="edu-note" data-i18n="edu0_note">
+            <strong>Stipendium Hungaricum Scholarship Recipient:</strong> Awarded full government scholarship for Master's degree in Artificial Intelligence (Budapest, Hungary).
+          </div>
+        </div>
+
+        <div class="edu-card" id="edu-ewha">
           <div class="edu-icon">🎓</div>
           <div class="edu-degree" data-i18n="edu1_degree">B.S. Mechanical &amp; Biomedical Engineering</div>
           <div class="edu-degree" style="font-size:0.88rem; margin-top:2px;" data-i18n="edu1_degree2">+ Double Major in Philosophy</div>
@@ -858,12 +932,12 @@
         </div>
 
         <div class="edu-card">
-          <div class="edu-icon">🤖</div>
+          <div class="edu-icon">📚</div>
           <div class="edu-degree" data-i18n="edu2_degree">POSCO AI &amp; BigData Academy</div>
           <div class="edu-school" data-i18n="edu2_school">POSCO HRD &times; POSTECH</div>
           <div class="edu-period" data-i18n="edu2_period">Oct 2023 &mdash; Dec 2023</div>
           <div class="edu-note" data-i18n="edu2_note">
-            Intensive ML/DL program &middot; Project Excellence Award
+            3 Mos &middot; Intensive ML/DL program &middot; Project Excellence Award
           </div>
           <div class="tags" style="margin-top:8px;">
             <span>XGBoost</span><span>Random Forest</span><span>YOLOv5</span><span>GAN</span><span>ANOVA</span><span>Chi-squared</span><span>Heatmap</span><span>Computer Vision</span><span>Flask</span><span>Python</span>
@@ -871,7 +945,7 @@
         </div>
 
         <div class="edu-card">
-          <div class="edu-icon">🧠</div>
+          <div class="edu-icon">📚</div>
           <div class="edu-degree" data-i18n="edu5_degree">AIFFEL LLM Engineering Course</div>
           <div class="edu-school" data-i18n="edu5_school">모두의연구소 (Modulabs)</div>
           <div class="edu-period" data-i18n="edu5_period">Aug 2025 &mdash; Nov 2025</div>
@@ -880,26 +954,6 @@
           </div>
           <div class="tags" style="margin-top:8px;">
             <span>LangChain</span><span>LangGraph</span><span>RAG</span><span>Graph RAG</span><span>LLM-as-Judge</span><span>Tool Calling</span><span>Multimodal RAG</span><span>Neo4j</span><span>Gradio</span>
-          </div>
-        </div>
-
-        <div class="edu-card">
-          <div class="edu-icon">🗄️</div>
-          <div class="edu-degree" data-i18n="edu3_degree">SQLD — SQL Developer</div>
-          <div class="edu-school" data-i18n="edu3_school">Korea Data Industry Promotion Institute</div>
-          <div class="edu-period" data-i18n="edu3_period">Apr 2024</div>
-          <div class="edu-note" data-i18n="edu3_note">
-            Certified in SQL query design, database modeling, and optimization.
-          </div>
-        </div>
-
-        <div class="edu-card">
-          <div class="edu-icon">📊</div>
-          <div class="edu-degree" data-i18n="edu4_degree">ADsP — Data Analysis Semi-Professional</div>
-          <div class="edu-school" data-i18n="edu4_school">Korea Data Industry Promotion Institute</div>
-          <div class="edu-period" data-i18n="edu4_period">Mar 2024</div>
-          <div class="edu-note" data-i18n="edu4_note">
-            Certified in data analysis methodology, statistics, and machine learning fundamentals.
           </div>
         </div>
       </div>
@@ -913,16 +967,23 @@
       </div>
 
       <div class="tech-grid reveal" style="margin-bottom: 96px;">
-        <div class="tech-cat">
-          <div class="tech-cat-name">2021</div>
+        <div class="tech-cat" id="award-capstone">
+          <div class="tech-cat-name" data-i18n="award_cat1">2021 · Award</div>
           <div class="tech-items">
-            <span data-i18n="award1">Capstone Design Grand Prize — Ewha Womans University</span>
+            <span data-i18n="award1">🏆 Capstone Design Grand Prize — Ewha Womans University</span>
           </div>
         </div>
         <div class="tech-cat">
-          <div class="tech-cat-name">2023</div>
+          <div class="tech-cat-name" data-i18n="award_cat2">2023 · Award</div>
           <div class="tech-items">
-            <span data-i18n="award2">POSCO AI BigData Academy — Project Excellence Award</span>
+            <span data-i18n="award2">🏆 POSCO AI BigData Academy — Project Excellence Award</span>
+          </div>
+        </div>
+        <div class="tech-cat">
+          <div class="tech-cat-name" data-i18n="award_cat3">2024 · Certifications</div>
+          <div class="tech-items">
+            <span data-i18n="award3">🪪 ADsP — Data Analysis Semi-Professional (Korea Data Industry Promotion Institute)</span>
+            <span data-i18n="award4">🪪 SQLD — SQL Developer (Korea Data Industry Promotion Institute)</span>
           </div>
         </div>
       </div>
@@ -976,70 +1037,7 @@
       </div>
     </section>
 
-    <!-- Background -->
-    <section>
-      <div class="section-heading reveal">
-        <div class="section-tag" data-i18n="bg_tag">Background</div>
-        <h2 data-i18n="bg_h2">The Story</h2>
-      </div>
 
-      <div class="about-block">
-        <div class="story-timeline reveal">
-          <div class="story-track">
-
-            <div class="story-node">
-              <div class="story-dot"></div>
-              <div class="story-year">2014</div>
-              <div class="story-label" data-i18n="st1_label">HVAC Engineer</div>
-              <div class="story-sub" data-i18n="st1_sub">Building Systems<br>Design Firms</div>
-            </div>
-
-            <div class="story-node">
-              <div class="story-dot"></div>
-              <div class="story-year">2020</div>
-              <div class="story-label" data-i18n="st2_label">Ewha Womans Univ.</div>
-              <div class="story-sub" data-i18n="st2_sub">Mechanical &amp; Biomedical Eng.<br>+ Philosophy</div>
-            </div>
-
-            <div class="story-node award">
-              <div class="story-dot"></div>
-              <div class="story-year">2021</div>
-              <div class="story-label" data-i18n="st3_label">🏆 Capstone Grand Prize</div>
-              <div class="story-sub" data-i18n="st3_sub">Dept. 1st — Research funding awarded</div>
-            </div>
-
-            <div class="story-node award">
-              <div class="story-dot"></div>
-              <div class="story-year">2023</div>
-              <div class="story-label" data-i18n="st4_label">SCI Paper · Graduation<br>POSCO Academy 🏆</div>
-              <div class="story-sub" data-i18n="st4_sub">IEEE Access (1st author)<br>Excellence Award</div>
-            </div>
-
-            <div class="story-node highlight">
-              <div class="story-dot"></div>
-              <div class="story-year">2024</div>
-              <div class="story-label" data-i18n="st5_label">AI / LLM Developer</div>
-              <div class="story-sub" data-i18n="st5_sub">Career pivot to AI<br>ADsP · SQLD</div>
-            </div>
-
-            <div class="story-node highlight">
-              <div class="story-dot"></div>
-              <div class="story-year" data-i18n="st6_year">2026</div>
-              <div class="story-label" data-i18n="st6_label">Enterprise LLM Platform</div>
-              <div class="story-sub" data-i18n="st6_sub">100+ users · AWS EKS<br>RAG · Agents · Infra</div>
-            </div>
-
-            <div class="story-node highlight">
-              <div class="story-dot"></div>
-              <div class="story-year" data-i18n="st7_year">Now</div>
-              <div class="story-label" data-i18n="st7_label">Open to Opportunities</div>
-              <div class="story-sub" data-i18n="st7_sub">Looking for the next challenge</div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Footer -->
     <footer>
@@ -1057,18 +1055,21 @@
     // ── i18n dictionary ──────────────────────────────────────────────────────
     const i18n = {
       en: {
+        nav_story: "Story",
         nav_work: "Work",
         nav_research: "Research",
         nav_experience: "Experience",
         nav_education: "Education",
         nav_contact: "Contact",
         hero_eyebrow: "Open to opportunities",
+        last_updated: "Updated Sep 2026",
         hero_h1_1: "AI/LLM Developer",
         hero_h1_2: "who ships",
         hero_h1_3: "production",
         hero_h1_4: "systems.",
         hero_desc: "I build enterprise AI systems that real people use every day — not prototypes. Engineering background, hands-on LLM ops.",
         scroll_hint: "Scroll to explore",
+        hero_cta_email: "Email me",
         stat1_lbl: "Regulatory Document Search",
         stat2_lbl: "~$0.025 — Optimized Cost",
         stat3_lbl: "Production System in Live Use",
@@ -1094,12 +1095,6 @@
         p2_li1: "BM25-based retrieval with Korean morphological analysis (Kiwi)",
         p2_li2: "84% verification accuracy with 0 false positives",
         p2_li3: "Structure-preserving document preprocessing pipeline — 78% token reduction",
-        p3_h3: "Music Mixing AI — Subjective Language &rarr; Audio Parameters",
-        p3_badge: "Personal",
-        p3_desc: 'A personal project exploring whether AI can interpret abstract expressions like "make it warmer" or "add more air" and translate them into concrete audio effect parameters in a DAW.',
-        p3_li1: "Built on REAPER (DAW) with an AI layer mapping natural language descriptions to EQ / reverb / compression values",
-        p3_li2: "Core challenge: evaluating whether the AI actually understood the user's intent — not just returned a plausible answer",
-        p3_li3: "Connects to broader research interest: how AI systems handle subjective, human-centric language",
         p4_h3: "Li-ion Battery Defect Rate Reduction via XGBoost",
         p4_badge: "POSCO Academy · Award",
         p4_desc: "Analyzed real production data from a lithium-ion battery formation process to identify defect-causing factors and build a predictive model to reduce the defect rate.",
@@ -1138,7 +1133,7 @@
         ps_lbl4: "SVR correlation (RBF kernel)",
         exp_tag: "Experience",
         exp_h2: "Career",
-        tl1_period: "Feb 2024 &mdash; Present",
+        tl1_period: "Feb 2024 &mdash; Apr 2026",
         tl1_title: "AI Developer &mdash; LLM / RAG Engineer",
         tl1_place: "Dongmyeong Engineering &amp; Construction (DMEC) &mdash; Seoul, Korea",
         tl1_li1: "Built and operate enterprise LLM agent platform serving 100+ users on AWS EKS",
@@ -1154,6 +1149,11 @@
         tl2_li3: "This domain knowledge became the foundation for the AI systems I later built",
         edu_tag: "Education",
         edu_h2: "Academic Background",
+        edu0_degree: "M.S. Computer Science",
+        edu0_degree2: "+ Specialized in Artificial Intelligence",
+        edu0_school: "Eötvös Loránd University",
+        edu0_period: "2026 &mdash; Present",
+        edu0_note: "<strong>Stipendium Hungaricum Scholarship Recipient:</strong> Awarded full government scholarship for Master's degree in Artificial Intelligence (Budapest, Hungary).",
         edu1_degree: "B.S. Mechanical &amp; Biomedical Engineering",
         edu1_degree2: "+ Double Major in Philosophy",
         edu1_school: "Ewha Womans University",
@@ -1162,7 +1162,7 @@
         edu2_degree: "POSCO AI &amp; BigData Academy",
         edu2_school: "POSCO HRD &times; POSTECH",
         edu2_period: "Oct 2023 &mdash; Dec 2023",
-        edu2_note: "Intensive ML/DL program &middot; Project Excellence Award",
+        edu2_note: "3 Mos &middot; Intensive ML/DL program &middot; Project Excellence Award",
         edu3_degree: "SQLD — SQL Developer",
         edu3_school: "Korea Data Industry Promotion Institute",
         edu3_period: "Apr 2024",
@@ -1177,10 +1177,13 @@
         edu5_note: "204 hours &middot; RAG &amp; LLM Agent development",
         awards_tag: "Awards &amp; Certifications",
         awards_h2: "Recognition",
-        award1: "Capstone Design Grand Prize — Ewha Womans University",
-        award2: "POSCO AI BigData Academy — Project Excellence Award",
-        award3: "ADsP — Data Analysis Semi-Professional",
-        award4: "SQLD — SQL Developer",
+        award_cat1: "2021 &middot; Award",
+        award_cat2: "2023 &middot; Award",
+        award_cat3: "2024 &middot; Certifications",
+        award1: "🏆 Capstone Design Grand Prize — Ewha Womans University",
+        award2: "🏆 POSCO AI BigData Academy — Project Excellence Award",
+        award3: "🪪 ADsP — Data Analysis Semi-Professional (Korea Data Industry Promotion Institute)",
+        award4: "🪪 SQLD — SQL Developer (Korea Data Industry Promotion Institute)",
         tech_tag: "Tech Stack",
         tech_h2: "Tools &amp; Technologies",
         tech_lang_cat: "Languages",
@@ -1188,37 +1191,39 @@
         tech_lang2: "English (Business Level)",
         bg_tag: "Background",
         bg_h2: "The Story",
-        st1_label: "HVAC Engineer",
-        st1_sub: "Building Systems<br>Design Firms",
-        st2_label: "Ewha Womans Univ.",
-        st2_sub: "Mechanical &amp; Biomedical Eng.<br>+ Philosophy",
+        st1_label: "👔 HVAC Engineer",
+        st1_sub: "Building Systems Design Firms · 4+ yrs",
+        st2_label: "🎓 B.S. Ewha Womans Univ.",
+        st2_sub: "Seoul, Korea<br>Mechanical &amp; Biomedical Eng. + Philosophy",
         st3_label: "🏆 Capstone Grand Prize",
         st3_sub: "Dept. 1st — Research funding awarded",
-        st4_label: "SCI Paper · Graduation<br>POSCO Academy 🏆",
-        st4_sub: "IEEE Access (1st author)<br>Excellence Award",
-        st5_label: "AI / LLM Developer",
-        st5_sub: "Planning · Data Preprocessing<br>Pipeline Design",
-        st6_year: "2026",
-        st6_label: "Enterprise LLM Platform",
-        st6_sub: "100+ users · AWS EKS<br>RAG · Agents · Infra",
-        st7_year: "Now",
-        st7_label: "Open to Opportunities",
-        st7_sub: "Looking for the next challenge",
+        st4a_label: "🎓 SCI Paper (IEEE Access)",
+        st4a_sub: "1st Author &middot; Graduation",
+        st4b_label: "🏆 POSCO AI Academy",
+        st4b_sub: "Project Excellence Award",
+        st5_label: "👔 AI / LLM Developer",
+        st5_sub: "Civil Eng. Firm · R&D Institute<br>AI Team · RAG &amp; Agents · 2+ yrs",
+        st6_year: "Now",
+        st6_label: "🎓 M.S. Eötvös Loránd University",
+        st6_sub: "Budapest, Hungary<br>Computer Science · Specialized in AI",
         footer_copy: "&copy; 2026 Chanin Jung",
       },
       ko: {
+        nav_story: "이야기",
         nav_work: "업무",
         nav_research: "연구",
         nav_experience: "경력",
         nav_education: "학력",
         nav_contact: "연락",
         hero_eyebrow: "구직 중",
+        last_updated: "업데이트: 2026.09",
         hero_h1_1: "AI/LLM 개발자",
         hero_h1_2: "실전",
         hero_h1_3: "프로덕션",
         hero_h1_4: "시스템 구축.",
         hero_desc: "프로토타입이 아닌, 실제 사람들이 매일 사용하는 기업용 AI 시스템을 만듭니다. 기계공학적 사고, 실전 LLM 운영 경험.",
         scroll_hint: "스크롤하여 탐색",
+        hero_cta_email: "이메일 보내기",
         stat1_lbl: "규정 문서 검색 시간",
         stat2_lbl: "~$0.025 — 최적화된 쿼리 비용",
         stat3_lbl: "실 운영 중인 프로덕션 시스템",
@@ -1244,12 +1249,6 @@
         p2_li1: "Kiwi 형태소 분석 기반 BM25 검색",
         p2_li2: "오탐(false positive) 0건으로 84% 검증 정확도",
         p2_li3: "문서 구조 보존 전처리 파이프라인 — 토큰 78% 절감",
-        p3_h3: "음악 믹싱 AI — 주관적 언어 → 오디오 파라미터",
-        p3_badge: "개인 프로젝트",
-        p3_desc: "\"더 따뜻하게\" 또는 \"공기감을 더\"와 같은 추상적 표현을 DAW의 구체적인 오디오 이펙트 파라미터로 변환할 수 있는지 탐구하는 개인 프로젝트.",
-        p3_li1: "REAPER(DAW) 기반으로 구축, 자연어 설명을 EQ / 리버브 / 컴프레션 값으로 매핑하는 AI 레이어",
-        p3_li2: "핵심 과제: AI가 단순히 그럴듯한 답을 반환하는 것이 아니라 실제로 사용자의 의도를 이해했는지 평가",
-        p3_li3: "AI 시스템이 주관적이고 인간 중심적인 언어를 어떻게 처리하는지에 대한 더 넓은 연구 관심사와 연결",
         p4_h3: "XGBoost 기반 리튬이온 배터리 불량률 감소",
         p4_badge: "POSCO 아카데미 · 수상",
         p4_desc: "리튬이온 배터리 화성 공정의 실제 생산 데이터를 분석하여 불량 원인 인자를 파악하고, 불량률을 줄이기 위한 예측 모델을 구축했습니다.",
@@ -1288,7 +1287,7 @@
         ps_lbl4: "SVR 상관관계 (RBF 커널)",
         exp_tag: "경력",
         exp_h2: "커리어",
-        tl1_period: "2024.02 — 현재",
+        tl1_period: "2024.02 — 2026.04",
         tl1_title: "AI 개발자 — LLM / RAG 엔지니어",
         tl1_place: "동명기술공단종합건축사사무소 (DMEC) — 서울, 한국",
         tl1_li1: "AWS EKS에서 100명 이상 사용자에게 서비스하는 엔터프라이즈 LLM 에이전트 플랫폼 구축 및 운영",
@@ -1304,7 +1303,12 @@
         tl2_li3: "이 도메인 지식이 이후 구축한 AI 시스템의 기반이 됨",
         edu_tag: "학력",
         edu_h2: "학력 사항",
-        edu1_degree: "기계·의공학 학사",
+        edu0_degree: "M.S. 컴퓨터공학 석사",
+        edu0_degree2: "+ AI (인공지능) 특화",
+        edu0_school: "Eötvös Loránd University (헝가리 부다페스트)",
+        edu0_period: "2026년 &mdash; 재학 중",
+        edu0_note: "<strong>Stipendium Hungaricum 정부 장학생:</strong> 헝가리 정부 전액 장학생 선정, 인공지능(AI) 전공 석사 과정.",
+        edu1_degree: "B.S. 기계·의공학 학사",
         edu1_degree2: "+ 철학 복수전공",
         edu1_school: "이화여자대학교",
         edu1_period: "2023년 졸업",
@@ -1312,7 +1316,7 @@
         edu2_degree: "POSCO 청년 AI·빅데이터 아카데미",
         edu2_school: "POSCO HRD × POSTECH",
         edu2_period: "2023.10 — 2023.12",
-        edu2_note: "집중 ML/DL 과정 · 프로젝트 우수상",
+        edu2_note: "3개월 · 집중 ML/DL 과정 · 프로젝트 우수상",
         edu3_degree: "SQLD — SQL 개발자",
         edu3_school: "한국데이터산업진흥원",
         edu3_period: "2024.04",
@@ -1326,11 +1330,14 @@
         edu5_period: "2025.08 — 2025.11",
         edu5_note: "204시간 · RAG & LLM Agent 개발",
         awards_tag: "수상 및 자격",
-        awards_h2: "수상 내역",
-        award1: "융합캡스톤디자인 대상 — 이화여자대학교",
-        award2: "POSCO AI 빅데이터 아카데미 — 프로젝트 우수상",
-        award3: "ADsP — 데이터분석 준전문가",
-        award4: "SQLD — SQL 개발자",
+        awards_h2: "수상 및 자격증",
+        award_cat1: "2021 · 수상",
+        award_cat2: "2023 · 수상",
+        award_cat3: "2024 · 자격증",
+        award1: "🏆 융합캡스톤디자인 대상 — 이화여자대학교",
+        award2: "🏆 POSCO AI 빅데이터 아카데미 — 프로젝트 우수상",
+        award3: "🪪 ADsP — 데이터분석 준전문가 (한국데이터산업진흥원)",
+        award4: "🪪 SQLD — SQL 개발자 (한국데이터산업진흥원)",
         tech_tag: "기술 스택",
         tech_h2: "도구 및 기술",
         tech_lang_cat: "언어",
@@ -1338,22 +1345,21 @@
         tech_lang2: "영어 (업무 수준)",
         bg_tag: "배경",
         bg_h2: "이야기",
-        st1_label: "HVAC 설계 엔지니어",
-        st1_sub: "건축설비설계사무소",
-        st2_label: "이화여자대학교",
-        st2_sub: "기계·의공학<br>+ 철학 복수전공",
+        st1_label: "👔 HVAC 설계 엔지니어",
+        st1_sub: "건축설비설계사무소 · 4년+",
+        st2_label: "🎓 B.S. 이화여자대학교",
+        st2_sub: "서울, 한국<br>기계·의공학 + 철학 복수전공",
         st3_label: "🏆 캡스톤 대상",
         st3_sub: "학과 1등 — 연구비 수주",
-        st4_label: "SCI 논문 · 졸업<br>POSCO 아카데미 🏆",
-        st4_sub: "IEEE Access (제1저자)<br>우수상",
-        st5_label: "AI / LLM 개발자",
-        st5_sub: "기획 · 데이터 전처리<br>파이프라인 설계",
-        st6_year: "2026",
-        st6_label: "엔터프라이즈 LLM 플랫폼",
-        st6_sub: "100명+ 사용자 · AWS EKS<br>RAG · 에이전트 · 인프라",
-        st7_year: "Now",
-        st7_label: "새로운 기회를 찾고 있습니다",
-        st7_sub: "다음 도전을 준비 중",
+        st4a_label: "🎓 SCI 논문 (IEEE Access)",
+        st4a_sub: "제1저자 · 졸업",
+        st4b_label: "🏆 POSCO AI 아카데미",
+        st4b_sub: "프로젝트 우수상",
+        st5_label: "👔 AI / LLM 개발자",
+        st5_sub: "토목회사 부설연구소 · AI팀<br>RAG · LLM 에이전트 · 2년+",
+        st6_year: "Now",
+        st6_label: "🎓 M.S. Eötvös Loránd University",
+        st6_sub: "부다페스트, 헝가리<br>컴퓨터공학 · AI 특화",
         footer_copy: "&copy; 2026 정찬인",
       }
     };
